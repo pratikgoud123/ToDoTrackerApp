@@ -6,7 +6,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.5.0</version>
-    <relativePath/>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <groupId>com.niit</groupId>
@@ -16,7 +16,7 @@
 
   <modules>
     <module>UserTask</module>
-<module>UserAuthentication</module>
+    <module>UserAuthentication</module>
   </modules>
 
   <name>ToDoTrackerApp</name>
@@ -28,7 +28,6 @@
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
