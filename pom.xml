@@ -16,7 +16,7 @@
 
   <modules>
     <module>UserTask</module>
-<module>UserAuthentication</module>
+    <module>UserAuthentication</module>
   </modules>
 
   <name>ToDoTrackerApp</name>
