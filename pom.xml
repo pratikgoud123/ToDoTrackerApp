@@ -18,6 +18,7 @@
     <module>UserTask</module>
     <module>UserAuthentication</module>
     <module>EurekaServer</module>
+    <module>SpringCloudApiGateway</module>
   </modules>
 
   <name>ToDoTrackerApp</name>
