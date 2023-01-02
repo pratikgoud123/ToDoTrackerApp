@@ -17,6 +17,7 @@
   <modules>
     <module>UserTask</module>
     <module>UserAuthentication</module>
+    <module>EurekaServer</module>
   </modules>
 
   <name>ToDoTrackerApp</name>
