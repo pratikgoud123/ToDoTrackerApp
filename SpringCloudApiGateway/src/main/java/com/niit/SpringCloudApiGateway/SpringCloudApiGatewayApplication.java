@@ -17,21 +17,4 @@ public class SpringCloudApiGatewayApplication {
 		SpringApplication.run(SpringCloudApiGatewayApplication.class, args);
 	}
 
-	@Bean
-	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-		return builder.routes()
-				.route(p -> p
-						.path("/api/v2/**")
-						.uri("http://authentication-service:8086/")) 	// use the name of the application in the uri
-
-				.route(p->p
-						.path("/api/v1/**")
-						.uri("http://tracker-service:8083/"))
-
-				.route(p->p
-						.path("/api/v3/**")
-						.uri("http://archive-service:8089/"))
-				.build();
-	}
-
 }

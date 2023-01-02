@@ -20,7 +20,7 @@ public class AppConfig {
         return builder.routes()
                 .route(p -> p
                         .path("/api/v1/**")
-                        .uri("http://customer-service:8083/")) // use the name of the application in the uri
+                        .uri("http://tracker-service:8083/")) // use the name of the application in the uri
 
                 .route(p->p
                         .path("/api/v2/**")
