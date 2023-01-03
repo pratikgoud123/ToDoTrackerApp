@@ -13,7 +13,7 @@ public interface UserTaskRepository extends MongoRepository<User, Integer> {
 
     List<User> findByEmailId (String emailId);
 
-    @Query("{'tasks.taskId':{$in:[?0]}}")
+    @Query("{'tasks.taskId': ?0}")
     User findByTaskId (int taskId);
 
 }

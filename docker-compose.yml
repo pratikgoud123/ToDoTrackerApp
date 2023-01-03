@@ -14,7 +14,6 @@ services:
       - rabbitmq-service
       - cloudapi-service
 
-
   mongoService:
     image: mongo:latest
     container_name: mongoService
@@ -36,7 +35,6 @@ services:
       - mysqlService
       - cloudapi-service
 
-
   mysqlService:
     image: mysql:latest
     container_name: mysqlService
@@ -49,7 +47,6 @@ services:
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-
 
   cloudapi-service:
     image: cloudapi_image

@@ -36,7 +36,7 @@ public class UserController {
         return new ResponseEntity<>(userTaskService.addTask(userId, task), HttpStatus.CREATED);
     }
 
-    @PutMapping("/addTask/{userId}")
+    @PutMapping("/updateTask/{userId}")
     public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
         return new ResponseEntity<>(userTaskService.updateTask(userId, task), HttpStatus.OK);
     }
@@ -73,16 +73,16 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/getByTaskId/{taskId}")
-//    public ResponseEntity<?> getByTaskId (@PathVariable int taskId) throws TaskNotFoundException {
-//        try{
-//            return new ResponseEntity<>(userTaskService.getByTaskId(taskId), HttpStatus.OK);
-//        }catch(TaskNotFoundException e){
-//            throw new TaskNotFoundException();
-//        }catch(Exception e){
-//            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/getByTaskId/{taskId}")
+    public ResponseEntity<?> getByTaskId (@PathVariable int taskId) throws TaskNotFoundException {
+        try{
+            return new ResponseEntity<>(userTaskService.getByTaskId(taskId), HttpStatus.OK);
+        }catch(TaskNotFoundException e){
+            throw new TaskNotFoundException();
+        }catch(Exception e){
+            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @DeleteMapping("/deletePizzaById")
     public ResponseEntity<?> deleteAllUser () {

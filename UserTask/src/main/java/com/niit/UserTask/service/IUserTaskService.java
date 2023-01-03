@@ -17,7 +17,7 @@ public interface IUserTaskService {
     List<Task> getAllTasksOfUser (int userId);
     Optional<User> getUserById (int userId) throws UserNotFoundException;
     List<User> getUserByEmailId (String emailId) throws UserNotFoundException;
-    User getByTaskId (int userId, int taskId) throws TaskNotFoundException;
+    User getByTaskId (int taskId) throws TaskNotFoundException;
     boolean deleteAllUser ();
     boolean deleteUserById (int userId) throws UserNotFoundException;
     boolean deleteTaskById (int taskId) throws TaskNotFoundException;

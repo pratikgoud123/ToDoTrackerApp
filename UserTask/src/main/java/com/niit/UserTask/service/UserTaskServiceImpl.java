@@ -106,19 +106,12 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public User getByTaskId(int userId, int taskId) throws TaskNotFoundException {
-        User user1 = userTaskRepository.findById(userId).get();
-        List<Task> tasksList1 = user1.getTasks();
-
-        User byTaskId = userTaskRepository.findByTaskId(taskId);
-        List<Task> tasksList2 = byTaskId.getTasks();
-
-
-
-//        if (userTaskRepository.findByTaskId(taskId)){
-//
-//        }
-        return byTaskId;
+    public User getByTaskId(int taskId) throws TaskNotFoundException {
+        User userByTaskId = userTaskRepository.findByTaskId(taskId);
+        if(userByTaskId == null){
+           throw new TaskNotFoundException();
+        }
+        return userByTaskId;
     }
 
     @Override
@@ -138,6 +131,19 @@ public class UserTaskServiceImpl implements IUserTaskService{
 
     @Override
     public boolean deleteTaskById(int taskId) throws TaskNotFoundException {
-        return false;
+        User userByTaskId = userTaskRepository.findByTaskId(taskId);
+        if(userByTaskId == null){
+            throw new TaskNotFoundException();
+        }else{
+            List<Task> tasks = userByTaskId.getTasks();
+            for (Task taskToDelete: tasks) {
+                taskToDelete.setTaskName(null);
+                taskToDelete.setTaskContent(null);
+                taskToDelete.setTaskDeadline(null);
+                taskToDelete.setTaskPriorityLevel(null);
+                taskToDelete.setTaskCompleted(false);
+            }
+            return true;
+        }
     }
 }
