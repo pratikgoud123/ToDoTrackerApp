@@ -11,10 +11,12 @@ services:
       - 8083:8083
     depends_on:
       - mongoService
+      - rabbitmq-service
+      - cloudapi-service
 
 
   mongoService:
-    image: mongo
+    image: mongo:latest
     container_name: mongoService
     ports:
       - 27017:27017
@@ -32,6 +34,7 @@ services:
       - 8086:8086
     depends_on:
       - mysqlService
+      - cloudapi-service
 
 
   mysqlService:
@@ -48,8 +51,9 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
 
-  cloudapiservice:
-    image: apigateway-service
+  cloudapi-service:
+    image: cloudapi_image
+    container_name: cloudapi-service
     build: SpringCloudApiGateway/
     restart: always
     networks:
@@ -59,8 +63,21 @@ services:
     environment:
       API_GATEWAY_PORT: 9000
 
+  rabbitmq-service:
+    image: rabbitmq:management
+    container_name: rabbitmq-service
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
   notification-service:
-    image: notification
+    image: notification_image
     container_name: notification-service
     build: NotificationService/
     restart: always
@@ -69,19 +86,21 @@ services:
     ports:
       - 8082:8082
     depends_on:
-      - mongoService1
-      - cloudapiservice
+      - mongoService
+      - rabbitmq-service
+      - cloudapi-service
 
-  mongoService1:
-    image: mongoNotification
-    container_name: mongocontainer
-    ports:
-      - 27017:27017
-    networks:
-      - mynetwork
+#  mongoService1:
+#    image: mongoNotification
+#    container_name: mongocontainer
+#    ports:
+#      - 27017:27017
+#    networks:
+#      - mynetwork
 
   eureka-service:
-    container_name: containerEureka
+    image: eureka_image
+    container_name: eureka-service
     build: EurekaServer/
     restart: always
     networks:
