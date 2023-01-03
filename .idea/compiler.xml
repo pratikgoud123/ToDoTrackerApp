@@ -9,6 +9,7 @@
         <module name="UserTask" />
         <module name="EurekaServer" />
         <module name="SpringCloudApiGateway" />
+        <module name="NotificationService" />
         <module name="UserAuthentication" />
         <module name="TaskArchive" />
       </profile>
@@ -20,6 +21,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="EurekaServer" options="-parameters" />
+      <module name="NotificationService" options="-parameters" />
       <module name="SpringCloudApiGateway" options="-parameters" />
       <module name="TaskArchive" options="-parameters" />
       <module name="UserAuthentication" options="-parameters" />

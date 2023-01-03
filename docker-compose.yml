@@ -47,6 +47,7 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
+
   cloudapiservice:
     image: apigateway-service
     build: SpringCloudApiGateway/
@@ -57,6 +58,27 @@ services:
       - 9000:9000
     environment:
       API_GATEWAY_PORT: 9000
+
+  notification-service:
+    image: notification
+    container_name: notification-service
+    build: NotificationService/
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - 8082:8082
+    depends_on:
+      - mongoService1
+      - cloudapiservice
+
+  mongoService1:
+    image: mongoNotification
+    container_name: mongocontainer
+    ports:
+      - 27017:27017
+    networks:
+      - mynetwork
 
   eureka-service:
     container_name: containerEureka
