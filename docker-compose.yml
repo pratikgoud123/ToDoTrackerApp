@@ -3,7 +3,7 @@ services:
   tracker-service:
     image: tracker_image
     container_name: tracker-service
-    build: UserService/
+    build: UserTask/
     restart: always
     networks:
       - mynetwork

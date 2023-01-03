@@ -7,22 +7,10 @@ K
 UserAuthentication/mvnw.cmd,e\9\e9e969b2b793d8fd1ea7911de5d3bd0ed708fee1
 G
 UserAuthentication/mvnw,e\7\e721665aff767bbefda3091c3883e1f23ba77f17
-Ü
-VUserAuthentication/src/main/java/com/niit/UserAuthentication/service/IUserService.java,c\9\c91919af65e083bf466e227d2559b097dd69fb64
-@
-UserTask/pom.xml,f\6\f608531ffaa754a93e1730493a72f66f4c917835
 }
 MUserAuthentication/src/main/java/com/niit/UserAuthentication/domain/User.java,3\5\35008855e80ab734301b28fe51ec29f527bbd92c
-ñ
-fUserAuthentication/src/main/java/com/niit/UserAuthentication/exception/UserAlreadyExistsException.java,e\5\e5e54d5472da0c9565454ccb1dfbcef718c50542
 ã
 [UserAuthentication/src/main/java/com/niit/UserAuthentication/controller/UserController.java,1\8\18cca92619539d4e2a7a37af3fb5b3b61526bf8e
-ë
-aUserAuthentication/src/main/java/com/niit/UserAuthentication/exception/UserNotFoundException.java,c\6\c6d9da54550c5f029e69a14ab7ca0ad9177d6ce8
-ã
-[UserAuthentication/src/main/java/com/niit/UserAuthentication/repository/UserRepository.java,9\0\909157b718ec0c0fa747fda7fa45dc3c04050c2a
-â
-YUserAuthentication/src/main/java/com/niit/UserAuthentication/service/UserServiceImpl.java,c\e\ce3ecae6a1c45d401b8ebc50fa3d5bf526f92c3a
 b
 2EurekaServer/.mvn/wrapper/maven-wrapper.properties,a\5\a5fabf9eba518f69f41b560b3a4987fa01796722
 G
@@ -33,8 +21,6 @@ G
 EurekaServer/Dockerfile,2\9\2968244e0cbf309374891086ca9a57cbec2fbdd3
 E
 EurekaServer/mvnw.cmd,4\0\40b65fb4acf1636ad198dc9df8587b0ff9b23d3c
-D
-EurekaServer/pom.xml,f\9\f93fe3bd91b42d4c95457b4c07dc854d94251529
 N
 SpringCloudApiGateway/mvnw.cmd,6\2\6269bedbea6c1796a62274345cb60dfde76c3b28
 J
@@ -51,3 +37,11 @@ w
 G.idea/sonarlint/issuestore/b/7/b7faa88cac9c07c1a322b14cc419e46eaef5e32f,f\f\ff7322fd9359a70610d69d4e8c56448aa007bc4c
 P
  SpringCloudApiGateway/.gitignore,3\5\357a8aa5bd522d5ea112dec10134034b2d994896
+}
+MEurekaServer/src/main/java/com/niit/EurekaServer/EurekaServerApplication.java,c\6\c6905d91133602ce02255ef4239378eab4492d8f
+P
+ SpringCloudApiGateway/Dockerfile,8\0\80a1a3ad9a2a430f61a20a7d1a2026608130b88d
+ê
+`UserAuthentication/src/main/java/com/niit/UserAuthentication/service/SecurityTokenGenerator.java,d\3\d35899b9a2bf548e221421fc77c9f249fecc544d
+ò
+hSpringCloudApiGateway/src/main/java/com/niit/SpringCloudApiGateway/SpringCloudApiGatewayApplication.java,9\2\929e51e9d3766be4413554f6fca248667c28ace1

@@ -10,6 +10,7 @@
         <module name="EurekaServer" />
         <module name="SpringCloudApiGateway" />
         <module name="UserAuthentication" />
+        <module name="TaskArchive" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="EurekaServer" options="-parameters" />
       <module name="SpringCloudApiGateway" options="-parameters" />
+      <module name="TaskArchive" options="-parameters" />
       <module name="UserAuthentication" options="-parameters" />
       <module name="UserTask" options="-parameters" />
     </option>
