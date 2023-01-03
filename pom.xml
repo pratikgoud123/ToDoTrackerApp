@@ -19,6 +19,7 @@
     <module>UserAuthentication</module>
     <module>EurekaServer</module>
     <module>SpringCloudApiGateway</module>
+    <module>NotificationService</module>
   </modules>
 
   <name>ToDoTrackerApp</name>
