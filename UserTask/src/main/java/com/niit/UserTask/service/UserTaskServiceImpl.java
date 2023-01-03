@@ -1,23 +1,29 @@
 package com.niit.UserTask.service;
 
+import com.niit.UserTask.config.Producer;
+import com.niit.UserTask.config.UserDTO;
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
 import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
+import com.niit.UserTask.proxy.UserProxy;
 import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class UserTaskServiceImpl implements IUserTaskService{
     private UserTaskRepository userTaskRepository;
+    private UserProxy userProxy;
     @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository) {
+    Producer producer;
+    @Autowired
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserProxy userProxy) {
         this.userTaskRepository = userTaskRepository;
+        this.userProxy = userProxy;
     }
 
     @Override
@@ -25,6 +31,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
         if (userTaskRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
+        userProxy.saveUserDetailFromUserTask(user);
         return userTaskRepository.save(user);
     }
 
@@ -65,31 +72,72 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public User getUserById(int userId) throws UserNotFoundException {
+    public Optional<User> getUserById(int userId) throws UserNotFoundException {
         if (userTaskRepository.findById(userId).isEmpty()){
             throw new UserNotFoundException();
         }
+        User user1 = userTaskRepository.findById(userId).get();
+        try{
+            System.out.println(" user data fetched from client request---" + user1.toString());
+            UserDTO userDTO = new UserDTO();
 
-        return userTaskRepository.findById(userId).get();
+            userDTO.setUserId(user1.getUserId());
+            userDTO.setFirstName(user1.getFirstName());
+            userDTO.setLastName(user1.getLastName());
+            userDTO.setEmailId(user1.getEmailId());
+            userDTO.setPassword(user1.getPassword());
+            userDTO.setRole(user1.getRole());
+            userDTO.setTasks(user1.getTasks());
+
+            producer.sendmsg(userDTO);
+
+        }catch(Exception exception){
+            System.out.println(exception.getStackTrace());
+        }
+        return userTaskRepository.findById(userId);
     }
 
     @Override
-    public Task getTaskById(int userId, int taskId) throws TaskNotFoundException {
-        return null;
+    public List<User> getUserByEmailId(String emailId) throws UserNotFoundException {
+        if (userTaskRepository.findByEmailId(emailId).isEmpty()){
+            throw new UserNotFoundException();
+        }
+        return userTaskRepository.findByEmailId(emailId);
+    }
+
+    @Override
+    public User getByTaskId(int userId, int taskId) throws TaskNotFoundException {
+        User user1 = userTaskRepository.findById(userId).get();
+        List<Task> tasksList1 = user1.getTasks();
+
+        User byTaskId = userTaskRepository.findByTaskId(taskId);
+        List<Task> tasksList2 = byTaskId.getTasks();
+
+
+
+//        if (userTaskRepository.findByTaskId(taskId)){
+//
+//        }
+        return byTaskId;
     }
 
     @Override
     public boolean deleteAllUser() {
-        return false;
+        userTaskRepository.deleteAll();
+        return true;
     }
 
     @Override
-    public boolean deleteUserById(int userId) {
-        return false;
+    public boolean deleteUserById(int userId) throws UserNotFoundException{
+        if (userTaskRepository.findById(userId).isEmpty()){
+            throw new UserNotFoundException();
+        }
+        userTaskRepository.deleteById(userId);
+        return true;
     }
 
     @Override
-    public boolean deleteTaskById(int taskId) {
+    public boolean deleteTaskById(int taskId) throws TaskNotFoundException {
         return false;
     }
 }
