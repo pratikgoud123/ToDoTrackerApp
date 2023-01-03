@@ -2,6 +2,7 @@ package com.niit.UserTask.domain;
 
 import org.springframework.data.annotation.Id;
 
+import javax.annotation.processing.Generated;
 import java.util.Date;
 
 public class Task {
