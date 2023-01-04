@@ -105,6 +105,20 @@ services:
 #    networks:
 #      - mynetwork
 
+  archive-service:
+    image: archive_image
+    container_name: archive-service
+    build: TaskArchive/
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongoService
+      - cloudapi-service
+      - rabbitmq-service
+
 networks:
   mynetwork:
     driver: bridge
