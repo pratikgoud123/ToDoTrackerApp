@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /*
-To send data to userAuthentication Service
+to send data to Notification service
  */
-@FeignClient(name="authentication-service", url ="authentication-service:8083")
-public interface UserProxy {
-    @PostMapping("/api/v1/registerUser")
+@FeignClient(name="notification-service", url ="notification-service:8082")
+public interface UserNotificationProxy {
+    @PostMapping("/api/v4/registerUser")
     public ResponseEntity<?> saveUserDetailFromUserTask (@RequestBody User user);
-
 }

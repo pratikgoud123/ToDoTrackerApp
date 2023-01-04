@@ -7,6 +7,7 @@ import com.niit.UserTask.domain.User;
 import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
+import com.niit.UserTask.proxy.UserNotificationProxy;
 import com.niit.UserTask.proxy.UserProxy;
 import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,14 @@ import java.util.Optional;
 public class UserTaskServiceImpl implements IUserTaskService{
     private UserTaskRepository userTaskRepository;
     private UserProxy userProxy;
+    private UserNotificationProxy userNotificationProxy;
     @Autowired
     Producer producer;
     @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserProxy userProxy) {
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserProxy userProxy, UserNotificationProxy userNotificationProxy) {
         this.userTaskRepository = userTaskRepository;
         this.userProxy = userProxy;
+        this.userNotificationProxy = userNotificationProxy;
     }
 
     @Override
@@ -32,6 +35,8 @@ public class UserTaskServiceImpl implements IUserTaskService{
             throw new UserAlreadyExistsException();
         }
         userProxy.saveUserDetailFromUserTask(user);
+        userNotificationProxy.saveUserDetailFromUserTask(user);
+
         return userTaskRepository.save(user);
     }
 

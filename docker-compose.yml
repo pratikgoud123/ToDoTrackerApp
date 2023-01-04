@@ -84,7 +84,6 @@ services:
       - 8082:8082
     depends_on:
       - mongoService
-      - rabbitmq-service
       - cloudapi-service
 
   eureka-service:

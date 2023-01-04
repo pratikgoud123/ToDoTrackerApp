@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/imp")
+@RequestMapping("/api/v4")
 public class ImpController {
     private ResponseEntity responseEntity;
 
