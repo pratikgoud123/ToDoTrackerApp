@@ -45,3 +45,15 @@ P
 `UserAuthentication/src/main/java/com/niit/UserAuthentication/service/SecurityTokenGenerator.java,d\3\d35899b9a2bf548e221421fc77c9f249fecc544d
 ˜
 hSpringCloudApiGateway/src/main/java/com/niit/SpringCloudApiGateway/SpringCloudApiGatewayApplication.java,9\2\929e51e9d3766be4413554f6fca248667c28ace1
+F
+TaskArchive/Dockerfile,e\d\ed597298b04d8af54cd114ac27f81295f0f5c0e9
+€
+PTaskArchive/src/main/java/com/niit/TaskArchive/repository/ArchiveRepository.java,5\d\5daefa1fbe2249bb57e8fc9ad67c936037aa5918
+{
+KTaskArchive/src/main/java/com/niit/TaskArchive/service/IArchiveService.java,a\d\adb906657bfe816f0bf13d07d96f81c79772e479
+~
+NTaskArchive/src/main/java/com/niit/TaskArchive/service/ArchiveServiceImpl.java,0\6\06330eeb3bd85570d4852ae69b6d298639477a58
+l
+<UserTask/src/main/java/com/niit/UserTask/config/UserDTO.java,5\4\54c01fa88ac24d689427fed5d6dfaff05eac5879
+m
+=UserTask/src/main/java/com/niit/UserTask/config/Producer.java,2\b\2bf98e309a384b4cd735c0098faebeae4ad9dda5
