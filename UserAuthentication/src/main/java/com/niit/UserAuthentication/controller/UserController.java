@@ -16,12 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v2")
 public class UserController {
 
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
+
     @Autowired
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
@@ -29,34 +29,34 @@ public class UserController {
 
     @PostMapping("/registerUser")
     public ResponseEntity<?> insertUser(@RequestBody User user) throws UserAlreadyExistsException {
-        try{
+        try {
             return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
-        }catch(UserAlreadyExistsException e){
+        } catch (UserAlreadyExistsException e) {
             throw new UserAlreadyExistsException();
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/fetchAllUsers")
-    public ResponseEntity<?> fetchAllUsers(){
+    public ResponseEntity<?> fetchAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/login/{emailId}/{password}")
     public ResponseEntity<?> loginUser(@PathVariable String emailId, @PathVariable String password) throws UserNotFoundException {
-        try{
+        try {
             return new ResponseEntity<>(userService.loginCheck(emailId, password), HttpStatus.OK);
-        }catch(UserNotFoundException ue){
+        } catch (UserNotFoundException ue) {
             throw new UserNotFoundException();
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>("Network Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 
     @DeleteMapping("/deleteById/{userId}")
-    public ResponseEntity<?> deleteByUserId(@PathVariable int userId){
+    public ResponseEntity<?> deleteByUserId(@PathVariable int userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>("User record has been deleted", HttpStatus.OK);
     }
