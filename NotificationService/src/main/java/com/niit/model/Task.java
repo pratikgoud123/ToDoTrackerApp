@@ -3,25 +3,30 @@ package com.niit.model;
 import java.util.Date;
 
 public class Task {
-
-    private int taskId;
+    private  int taskId;
     private String taskName;
     private String taskContent;
-    private boolean priority;
+    private Date taskDeadline;
     private String taskCategory;
-    private Date taskDueDate;
+    private String taskPriorityLevel;
+    private boolean isTaskCompleted;
+
+
 
     public Task() {
+
     }
 
-    public Task(int taskId, String taskName, String taskContent, boolean priority, String taskCategory, Date taskDueDate) {
+    public Task(int taskId, String taskName, String taskContent, Date taskDeadline, String taskCategory, String taskPriorityLevel, boolean isTaskCompleted) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskContent = taskContent;
-        this.priority = priority;
+        this.taskDeadline = taskDeadline;
         this.taskCategory = taskCategory;
-        this.taskDueDate = taskDueDate;
+        this.taskPriorityLevel = taskPriorityLevel;
+        this.isTaskCompleted = isTaskCompleted;
     }
+
 
     public int getTaskId() {
         return taskId;
@@ -47,12 +52,12 @@ public class Task {
         this.taskContent = taskContent;
     }
 
-    public boolean isPriority() {
-        return priority;
+    public Date getTaskDeadline() {
+        return taskDeadline;
     }
 
-    public void setPriority(boolean priority) {
-        this.priority = priority;
+    public void setTaskDeadline(Date taskDeadline) {
+        this.taskDeadline = taskDeadline;
     }
 
     public String getTaskCategory() {
@@ -63,23 +68,33 @@ public class Task {
         this.taskCategory = taskCategory;
     }
 
-    public Date getTaskDueDate() {
-        return taskDueDate;
+    public String getTaskPriorityLevel() {
+        return taskPriorityLevel;
     }
 
-    public void setTaskDueDate(Date taskDueDate) {
-        this.taskDueDate = taskDueDate;
+    public void setTaskPriorityLevel(String taskPriorityLevel) {
+        this.taskPriorityLevel = taskPriorityLevel;
     }
+
+    public boolean isTaskCompleted() {
+        return isTaskCompleted;
+    }
+
+    public void setTaskCompleted(boolean taskCompleted) {
+        isTaskCompleted = taskCompleted;
+    }
+
 
     @Override
     public String toString() {
         return "Task{" +
-                "taskId='" + taskId + '\'' +
-                ", taskTitle='" + taskName + '\'' +
-                ", taskDescription='" + taskContent + '\'' +
-                ", isImportant=" + priority +
-                ", category='" + taskCategory + '\'' +
-                ", targetDate='" + taskDueDate + '\'' +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", taskContent='" + taskContent + '\'' +
+                ", taskDeadline=" + taskDeadline +
+                ", taskCategory='" + taskCategory + '\'' +
+                ", taskPriorityLevel='" + taskPriorityLevel + '\'' +
+                ", isTaskCompleted=" + isTaskCompleted +
                 '}';
     }
 }

@@ -13,4 +13,5 @@ public interface ImpService {
     public boolean deleteTask(int userId, int taskId) throws ImpNotFoundException;
 
     public List<Task> getAllImpTask(int userId);
+    public boolean addTask(Task task, int userId) throws ImpNotFoundException;
 }

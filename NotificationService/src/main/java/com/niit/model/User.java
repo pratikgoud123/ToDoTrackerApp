@@ -12,16 +12,25 @@ public class User {
     private int userId;
     private String emailId;
 
+    private String firstName;
+    private String lastName;
+
+
+    private String role;
     private List<Task> tasks;
 
-    public User() { }
-
-    public User(int userId, String emailId, List<Task> tasks) {
-        this.userId = userId;
-        this.emailId = emailId;
-        this.tasks = tasks;
+    public User() {
     }
 
+
+    public User(int userId, String emailId, String firstName, String lastName, String role, List<Task> tasks) {
+        this.userId = userId;
+        this.emailId = emailId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.tasks = tasks;
+    }
 
     public int getUserId() {
         return userId;
@@ -39,6 +48,30 @@ public class User {
         this.emailId = emailId;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public List<Task> getTasks() {
         return tasks;
     }
@@ -50,8 +83,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", emailId='" + emailId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role='" + role + '\'' +
                 ", tasks=" + tasks +
                 '}';
     }

@@ -47,7 +47,29 @@ public class ImpServiceImpl implements ImpService{
     public List<Task> getAllImpTask(int userId) {
         List<Task> tasks = impRepository.findById(userId).get().getTasks();
         List<Task> impTasks = new ArrayList<>();
-        tasks.forEach(e->{if(e.isPriority()) impTasks.add(e);});
+        tasks.forEach(e->{
+            if(e.getTaskPriorityLevel().equals("high")) {
+                impTasks.add(e);
+            } else if (e.getTaskPriorityLevel().equals("medium")) {
+                impTasks.add(e);
+            }
+        });
         return impTasks;
+    }
+
+    @Override
+    public boolean addTask(Task task, int userId) throws ImpNotFoundException {
+        if(impRepository.findById(userId).isEmpty()){
+            throw new ImpNotFoundException();
+        }
+        User user = impRepository.findById(userId).get();
+        List<Task> tasks = user.getTasks();
+        if(tasks == null) {
+            tasks = new ArrayList<>();
+        }
+        tasks.add(task);
+        user.setTasks(tasks);
+        impRepository.save(user);
+        return true;
     }
 }
