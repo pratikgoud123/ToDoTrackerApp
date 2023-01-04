@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v2")
 public class UserController {
-    private UserTaskServiceImpl userTaskService;
+    private final UserTaskServiceImpl userTaskService;
     @Autowired
     public UserController(UserTaskServiceImpl userTaskService) {
         this.userTaskService = userTaskService;

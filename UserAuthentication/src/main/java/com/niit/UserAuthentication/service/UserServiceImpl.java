@@ -22,12 +22,12 @@ public class UserServiceImpl implements IUserService{
 
 
     private UserRepository userRepository;
-   // private UserProxy userProxy;
+
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-       // this.userProxy = userProxy;
+
     }
 
     @Override

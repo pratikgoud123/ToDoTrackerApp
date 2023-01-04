@@ -11,7 +11,7 @@ To send data to userAuthentication Service
  */
 @FeignClient(name="authentication-service", url ="authentication-service:8083")
 public interface UserProxy {
-    @PostMapping("/api/v1/registerUser")
+    @PostMapping("/api/v2/registerUser")
     public ResponseEntity<?> saveUserDetailFromUserTask (@RequestBody User user);
 
 }
