@@ -14,6 +14,7 @@ import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -46,13 +47,13 @@ public class UserTaskServiceImpl implements IUserTaskService{
         User user1 = userTaskRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
         if(tasks == null){
-            user1.setTasks(Arrays.asList(task));
-        }else {
-            tasks.add(task);
-            user1.setTasks(tasks);
+            tasks = new ArrayList<>();
         }
+        tasks.add(task);
+        user1.setTasks(tasks);
+        userTaskRepository.save(user1);
 
-        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
+//        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
 
         try{
             System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
@@ -70,7 +71,6 @@ public class UserTaskServiceImpl implements IUserTaskService{
         }catch(Exception exception){
             System.out.println(exception.getStackTrace());
         }
-
         return task;
     }
 

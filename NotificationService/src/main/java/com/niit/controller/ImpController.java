@@ -1,6 +1,7 @@
 package com.niit.controller;
 
 
+import com.niit.exception.ImpAlreadyExistException;
 import com.niit.exception.ImpNotFoundException;
 
 import com.niit.model.Task;
@@ -17,8 +18,6 @@ public class ImpController {
     private ResponseEntity responseEntity;
 
     private ImpService impService;
-
-
     @Autowired
     public ImpController(ImpService impService) {
         this.impService = impService;
@@ -45,12 +44,10 @@ public class ImpController {
     }
 
 
-    @PostMapping("/add/{userId}")
-    public ResponseEntity<?> addTask(@RequestBody Task task, @PathVariable int userId) throws ImpNotFoundException {
+    @PutMapping("/add/{userId}")
+    public ResponseEntity<?> addTask(@RequestBody Task task, @PathVariable int userId){
+        return new ResponseEntity<>(impService.addTask(task,userId),HttpStatus.OK);
 
-        impService.addTask(task,userId);
-
-        return new ResponseEntity<>("Task added",HttpStatus.OK);
     }
 }
 

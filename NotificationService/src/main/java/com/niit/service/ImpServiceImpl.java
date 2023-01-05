@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ImpServiceImpl implements ImpService{
-
-
-
     @Autowired
     private ImpRepository impRepository;
 
@@ -58,18 +56,19 @@ public class ImpServiceImpl implements ImpService{
     }
 
     @Override
-    public boolean addTask(Task task, int userId) throws ImpNotFoundException {
-        if(impRepository.findById(userId).isEmpty()){
-            throw new ImpNotFoundException();
+    public boolean addTask(Task task, int userId){
+        User user1 = impRepository.findById(userId).get();
+        List<Task> tasks = user1.getTasks();
+
+        if(user1.getTasks()==null){
+            user1.setTasks(Arrays.asList(task));
         }
-        User user = impRepository.findById(userId).get();
-        List<Task> tasks = user.getTasks();
-        if(tasks == null) {
-            tasks = new ArrayList<>();
+        else {
+            tasks.add(task);
+            user1.setTasks(tasks);
         }
-        tasks.add(task);
-        user.setTasks(tasks);
-        impRepository.save(user);
+        impRepository.save(user1);
+
         return true;
     }
 }

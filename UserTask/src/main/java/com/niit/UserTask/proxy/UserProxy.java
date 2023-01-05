@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /*
 To send data to userAuthentication Service
  */
-@FeignClient(name="authentication-service", url ="authentication-service:8083")
+@FeignClient(name="authentication-service", url ="authentication-service:8086")
 public interface UserProxy {
     @PostMapping("/api/v2/registerUser")
     public ResponseEntity<?> saveUserDetailFromUserTask (@RequestBody User user);
