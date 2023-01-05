@@ -1,13 +1,9 @@
-package com.niit.UserTask.domain;
+package com.niit.UserTask.config;
 
-import org.springframework.data.annotation.Id;
-
-import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Task {
-    @Id
+public class TaskDTO {
     private  int taskId;
     private String taskName;
     private String taskContent;
@@ -16,10 +12,10 @@ public class Task {
     private String taskPriorityLevel;
     private boolean isTaskCompleted;
 
-    public Task() {
+    public TaskDTO() {
     }
 
-    public Task(int taskId, String taskName, String taskContent, LocalDate taskDeadline, String taskCategory, String taskPriorityLevel, boolean isTaskCompleted) {
+    public TaskDTO(int taskId, String taskName, String taskContent, LocalDate taskDeadline, String taskCategory, String taskPriorityLevel, boolean isTaskCompleted) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskContent = taskContent;
@@ -87,7 +83,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "TaskDTO{" +
                 "taskId=" + taskId +
                 ", taskName='" + taskName + '\'' +
                 ", taskContent='" + taskContent + '\'' +

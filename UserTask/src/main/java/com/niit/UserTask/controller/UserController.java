@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class UserController {
     private final UserTaskServiceImpl userTaskService;
     @Autowired
@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUserByEmailId/{pizzaName}")
+    @GetMapping("/getUserByEmailId/{emailId}")
     public ResponseEntity<?> getUserByEmailId (@PathVariable String emailId) throws UserNotFoundException{
         try{
             return new ResponseEntity<>(userTaskService.getUserByEmailId(emailId), HttpStatus.OK);
@@ -73,10 +73,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getByTaskId/{taskId}")
-    public ResponseEntity<?> getByTaskId (@PathVariable int taskId) throws TaskNotFoundException {
+    @GetMapping("/getByTaskId/{userId}/{taskId}")
+    public ResponseEntity<?> getTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskNotFoundException {
         try{
-            return new ResponseEntity<>(userTaskService.getByTaskId(taskId), HttpStatus.OK);
+            return new ResponseEntity<>(userTaskService.getTaskByTaskId(userId, taskId), HttpStatus.OK);
         }catch(TaskNotFoundException e){
             throw new TaskNotFoundException();
         }catch(Exception e){
@@ -84,7 +84,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deletePizzaById")
+    @DeleteMapping("/deleteAllUser")
     public ResponseEntity<?> deleteAllUser () {
         return new ResponseEntity<>(userTaskService.deleteAllUser(), HttpStatus.OK);
     }
@@ -100,10 +100,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteTaskById/{taskId}")
-    public ResponseEntity<?> deleteTaskById (@PathVariable int taskId) throws TaskNotFoundException {
+    @DeleteMapping("/deleteTaskByTaskId/{userId}/{taskId}")
+    public ResponseEntity<?> deleteTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskNotFoundException {
         try{
-            return new ResponseEntity<>(userTaskService.deleteTaskById(taskId), HttpStatus.OK);
+            return new ResponseEntity<>(userTaskService.deleteTaskByTaskId(userId, taskId), HttpStatus.OK);
         }catch(TaskNotFoundException e){
             throw new TaskNotFoundException();
         }catch(Exception e){

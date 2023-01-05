@@ -25,7 +25,7 @@ public class AppConfig {
 
                 .route(p -> p.path("/api/v2/**").uri("http://authentication-service:8086/"))
 
-                .route(p -> p.path("/api/imp/**").uri("http://notification-service:8082/"))
+                .route(p -> p.path("/api/v4/**").uri("http://notification-service:8082/"))
 
                 .route(p -> p.path("/api/v3/**").uri("http://archive-service:8081/"))
 

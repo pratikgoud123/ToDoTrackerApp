@@ -10,7 +10,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 @EnableEurekaClient
 @EnableFeignClients
 public class UserTaskApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(UserTaskApplication.class, args);
 	}

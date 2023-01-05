@@ -11,15 +11,15 @@ import java.util.Optional;
 
 public interface IUserTaskService {
     User saveUser (User user) throws UserAlreadyExistsException;
-    User addTask (int userId, Task task);
-    User updateTask (int userId, Task task);
+    Task addTask (int userId, Task task);
+    Task updateTask (int userId, Task task);
     List<User> getAllUsers ();
     List<Task> getAllTasksOfUser (int userId);
     Optional<User> getUserById (int userId) throws UserNotFoundException;
     List<User> getUserByEmailId (String emailId) throws UserNotFoundException;
-    User getByTaskId (int taskId) throws TaskNotFoundException;
+    Task getTaskByTaskId (int userId, int taskId) throws TaskNotFoundException;
     boolean deleteAllUser ();
     boolean deleteUserById (int userId) throws UserNotFoundException;
-    boolean deleteTaskById (int taskId) throws TaskNotFoundException;
+    boolean deleteTaskByTaskId (int userId, int taskId) throws TaskNotFoundException;
 
 }

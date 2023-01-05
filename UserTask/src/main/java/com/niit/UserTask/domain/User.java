@@ -3,6 +3,7 @@ package com.niit.UserTask.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.List;
 @Document
 public class User {
@@ -10,6 +11,7 @@ public class User {
     private int userId;
     private String firstName;
     private String lastName;
+    private String image;
     private String emailId;
     private String password;
     private String role;
@@ -18,10 +20,11 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String firstName, String lastName, String emailId, String password, String role, List<Task> tasks) {
+    public User(int userId, String firstName, String lastName, String image, String emailId, String password, String role, List<Task> tasks) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.image = image;
         this.emailId = emailId;
         this.password = password;
         this.role = role;
@@ -50,6 +53,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getEmailId() {
@@ -90,6 +101,7 @@ public class User {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", image='" + image + '\'' +
                 ", emailId='" + emailId + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +

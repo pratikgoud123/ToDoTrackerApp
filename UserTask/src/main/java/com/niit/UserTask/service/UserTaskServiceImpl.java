@@ -1,6 +1,7 @@
 package com.niit.UserTask.service;
 
 import com.niit.UserTask.config.Producer;
+import com.niit.UserTask.config.TaskDTO;
 import com.niit.UserTask.config.UserDTO;
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
@@ -13,6 +14,7 @@ import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -20,13 +22,13 @@ public class UserTaskServiceImpl implements IUserTaskService{
     private UserTaskRepository userTaskRepository;
     private UserProxy userProxy;
     private UserNotificationProxy userNotificationProxy;
+    private Producer producer;
     @Autowired
-    Producer producer;
-    @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserProxy userProxy, UserNotificationProxy userNotificationProxy) {
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserProxy userProxy, UserNotificationProxy userNotificationProxy, Producer producer) {
         this.userTaskRepository = userTaskRepository;
         this.userProxy = userProxy;
         this.userNotificationProxy = userNotificationProxy;
+        this.producer = producer;
     }
 
     @Override
@@ -35,21 +37,45 @@ public class UserTaskServiceImpl implements IUserTaskService{
             throw new UserAlreadyExistsException();
         }
         userProxy.saveUserDetailFromUserTask(user);
-        userNotificationProxy.saveUserDetailFromUserTask(user);
 
         return userTaskRepository.save(user);
     }
 
     @Override
-    public User addTask(int userId, Task task) {
+    public Task addTask(int userId, Task task) {
         User user1 = userTaskRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
-        tasks.add(task);
-        return user1;
+        if(tasks == null){
+            user1.setTasks(Arrays.asList(task));
+        }else {
+            tasks.add(task);
+            user1.setTasks(tasks);
+        }
+
+        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
+
+        try{
+            System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
+            TaskDTO taskDTO = new TaskDTO();
+
+            taskDTO.setTaskId(task.getTaskId());
+            taskDTO.setTaskName(task.getTaskName());
+            taskDTO.setTaskContent(task.getTaskContent());
+            taskDTO.setTaskDeadline(task.getTaskDeadline());
+            taskDTO.setTaskCategory(task.getTaskCategory());
+            taskDTO.setTaskPriorityLevel(task.getTaskPriorityLevel());
+            taskDTO.setTaskCompleted(task.isTaskCompleted());
+            producer.sendTaskMsg(taskDTO);
+
+        }catch(Exception exception){
+            System.out.println(exception.getStackTrace());
+        }
+
+        return task;
     }
 
     @Override
-    public User updateTask(int userId, Task task) {
+    public Task updateTask(int userId, Task task) {
         User user1 = userTaskRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
@@ -61,7 +87,25 @@ public class UserTaskServiceImpl implements IUserTaskService{
                 taskToUpdate.setTaskCompleted(task.isTaskCompleted());
             }
         }
-        return user1;
+
+        try{
+            System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
+            TaskDTO taskDTO = new TaskDTO();
+
+            taskDTO.setTaskId(task.getTaskId());
+            taskDTO.setTaskName(task.getTaskName());
+            taskDTO.setTaskContent(task.getTaskContent());
+            taskDTO.setTaskDeadline(task.getTaskDeadline());
+            taskDTO.setTaskCategory(task.getTaskCategory());
+            taskDTO.setTaskPriorityLevel(task.getTaskPriorityLevel());
+            taskDTO.setTaskCompleted(task.isTaskCompleted());
+            producer.sendTaskMsg(taskDTO);
+
+        }catch(Exception exception){
+            System.out.println(exception.getStackTrace());
+        }
+
+        return task;
     }
 
     @Override
@@ -94,7 +138,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
             userDTO.setRole(user1.getRole());
             userDTO.setTasks(user1.getTasks());
 
-            producer.sendmsg(userDTO);
+            producer.sendUserMsg(userDTO);
 
         }catch(Exception exception){
             System.out.println(exception.getStackTrace());
@@ -111,12 +155,18 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public User getByTaskId(int taskId) throws TaskNotFoundException {
-        User userByTaskId = userTaskRepository.findByTaskId(taskId);
-        if(userByTaskId == null){
-           throw new TaskNotFoundException();
+    public Task getTaskByTaskId(int userId, int taskId) throws TaskNotFoundException {
+        User user1 = userTaskRepository.findById(userId).get();
+        List<Task> tasks = user1.getTasks();
+        Task task = tasks.stream()
+                            .filter(obj -> taskId==(obj.getTaskId()))
+                            .findAny().orElse(null);
+        if(tasks == null || !tasks.contains(task)){
+            throw new TaskNotFoundException();
         }
-        return userByTaskId;
+        userTaskRepository.save(user1);
+
+        return task;
     }
 
     @Override
@@ -135,20 +185,18 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public boolean deleteTaskById(int taskId) throws TaskNotFoundException {
-        User userByTaskId = userTaskRepository.findByTaskId(taskId);
-        if(userByTaskId == null){
+    public boolean deleteTaskByTaskId(int userId, int taskId) throws TaskNotFoundException {
+        User user = userTaskRepository.findById(userId).get();
+        List<Task> tasks = user.getTasks();
+        Task task = tasks.stream()
+                .filter(obj -> taskId==(obj.getTaskId()))
+                .findAny().orElse(null);
+        if(tasks == null || !tasks.contains(task)){
             throw new TaskNotFoundException();
-        }else{
-            List<Task> tasks = userByTaskId.getTasks();
-            for (Task taskToDelete: tasks) {
-                taskToDelete.setTaskName(null);
-                taskToDelete.setTaskContent(null);
-                taskToDelete.setTaskDeadline(null);
-                taskToDelete.setTaskPriorityLevel(null);
-                taskToDelete.setTaskCompleted(false);
-            }
-            return true;
         }
+        tasks.remove(task);
+        user.setTasks(tasks);
+        userTaskRepository.save(user);
+        return true;
     }
 }
