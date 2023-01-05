@@ -25,6 +25,11 @@ public class ImpServiceImpl implements ImpService{
     }
 
     @Override
+    public User saveUser(User user) {
+        return impRepository.save(user);
+    }
+
+    @Override
     public boolean deleteTask(int userId, int taskId) throws ImpNotFoundException {
         User user = impRepository.findById(userId).get();
         List<Task> tasks = user.getTasks();
@@ -56,7 +61,7 @@ public class ImpServiceImpl implements ImpService{
     }
 
     @Override
-    public boolean addTask(Task task, int userId){
+    public boolean addTask(Task task, int userId) {
         User user1 = impRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
 
@@ -71,4 +76,23 @@ public class ImpServiceImpl implements ImpService{
 
         return true;
     }
+
+    @Override
+    public Task updateTask(int userId, Task task) {
+        User user1 = impRepository.findById(userId).get();
+        List<Task> tasks = user1.getTasks();
+        for (Task taskToUpdate: tasks) {
+            if (taskToUpdate.getTaskId() == task.getTaskId()){
+                taskToUpdate.setTaskName(task.getTaskName());
+                taskToUpdate.setTaskContent(task.getTaskContent());
+                taskToUpdate.setTaskDeadline(task.getTaskDeadline());
+                taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
+                taskToUpdate.setTaskCompleted(task.isTaskCompleted());
+            }
+        }
+        impRepository.save(user1);
+        return task;
+    }
+
+
 }

@@ -5,6 +5,7 @@ import com.niit.exception.ImpAlreadyExistException;
 import com.niit.exception.ImpNotFoundException;
 
 import com.niit.model.Task;
+import com.niit.model.User;
 import com.niit.service.ImpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,19 @@ public class ImpController {
     }
 
 
+    @PostMapping("/sendUser")
+    public ResponseEntity<?> saveUser(@RequestBody User user){
+        return new ResponseEntity<>(impService.saveUser(user),HttpStatus.OK);
+    }
+    @PutMapping("/add/{userId}")
+    public ResponseEntity<?> addTask(@RequestBody Task task, @PathVariable int userId){
+        return new ResponseEntity<>(impService.addTask(task,userId),HttpStatus.OK);
 
+    }
+    @PutMapping("/updateTask/{userId}")
+    public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
+        return new ResponseEntity<>(impService.updateTask(userId, task), HttpStatus.OK);
+    }
     @GetMapping("/imptasks/{userId}")
     public ResponseEntity<?> getAllImpTasks(@PathVariable int userId){
         return new ResponseEntity<>(impService.getAllImpTask(userId),HttpStatus.OK);
@@ -44,10 +57,6 @@ public class ImpController {
     }
 
 
-    @PutMapping("/add/{userId}")
-    public ResponseEntity<?> addTask(@RequestBody Task task, @PathVariable int userId){
-        return new ResponseEntity<>(impService.addTask(task,userId),HttpStatus.OK);
 
-    }
 }
 

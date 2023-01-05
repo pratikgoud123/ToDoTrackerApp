@@ -38,6 +38,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
             throw new UserAlreadyExistsException();
         }
         userProxy.saveUserDetailFromUserTask(user);
+        userNotificationProxy.saveUserToNotification(user);
 
         return userTaskRepository.save(user);
     }
@@ -53,7 +54,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
         user1.setTasks(tasks);
         userTaskRepository.save(user1);
 
-//        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
+        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
 
         try{
             System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
@@ -87,6 +88,8 @@ public class UserTaskServiceImpl implements IUserTaskService{
                 taskToUpdate.setTaskCompleted(task.isTaskCompleted());
             }
         }
+        userTaskRepository.save(user1);
+        userNotificationProxy.updateTask(userId,task);
 
         try{
             System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
