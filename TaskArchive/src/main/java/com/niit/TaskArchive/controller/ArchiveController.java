@@ -7,6 +7,8 @@
 
 package com.niit.TaskArchive.controller;
 
+import com.niit.TaskArchive.domain.Task;
+import com.niit.TaskArchive.domain.User;
 import com.niit.TaskArchive.exception.TaskDoesNotExistsException;
 import com.niit.TaskArchive.service.IArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +28,30 @@ public class ArchiveController {
         this.iArchiveService = iArchiveService;
     }
 
-    @GetMapping("/fetchAllTasks")
-    public ResponseEntity<?> fetchAllTasks() {
-        return new ResponseEntity<>(iArchiveService.getAllTasks(), HttpStatus.OK);
+    @PostMapping("/insertUser")
+    public ResponseEntity<?> insertUser(@RequestBody User user){
+        return new ResponseEntity<>(iArchiveService.saveUser(user),HttpStatus.OK);
+    }
+    @PutMapping("/add/{userId}")
+    public ResponseEntity<?> addTask(@RequestBody Task task, @PathVariable int userId){
+        return new ResponseEntity<>(iArchiveService.addTask(task,userId),HttpStatus.OK);
+
+    }
+    @PutMapping("/updateTask/{userId}")
+    public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
+        return new ResponseEntity<>(iArchiveService.updateTask(userId, task), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllTasks/{userId}")
+    public ResponseEntity<?> getAllTasks(@PathVariable int userId){
+        return new ResponseEntity<>(iArchiveService.getAllTasks(userId),HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/deleteTaskById/{taskId}")
-    public ResponseEntity<?> deleteTaskById(@PathVariable int taskId) throws TaskDoesNotExistsException {
-        try {
-            return new ResponseEntity<>(iArchiveService.deleteTaskById(taskId), HttpStatus.OK);
-        } catch (TaskDoesNotExistsException e) {
-            throw new TaskDoesNotExistsException();
-        } catch (Exception e) {
-            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @DeleteMapping("/deleteTask/{userId}/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable("userId") int userId, @PathVariable("taskId") int taskId) throws TaskDoesNotExistsException {
+        iArchiveService.deleteTask(userId,taskId);
+        return new ResponseEntity<>("Task deleted",HttpStatus.OK);
+
     }
 }

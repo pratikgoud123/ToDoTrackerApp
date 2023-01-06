@@ -7,30 +7,32 @@
 
 package com.niit.TaskArchive.domain;
 
-import javax.annotation.Priority;
+import org.springframework.data.annotation.Id;
+
 import java.time.LocalDate;
 
 public class Task {
 
-    private int taskId;
+    @Id
+    private  int taskId;
     private String taskName;
     private String taskContent;
-    private LocalDate taskDueDate;
+    private LocalDate taskDeadline;
     private String taskCategory;
-    private boolean priorityLevel;
-    private boolean isCompleted;
+    private String taskPriorityLevel;
 
+    private boolean isTaskCompleted;
     public Task() {
     }
 
-    public Task(int taskId, String taskName, String taskContent, LocalDate taskDueDate, String taskCategory, boolean priorityLevel, boolean isCompleted) {
+    public Task(int taskId, String taskName, String taskContent, LocalDate taskDeadline, String taskCategory, String taskPriorityLevel, boolean isTaskCompleted) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskContent = taskContent;
-        this.taskDueDate = taskDueDate;
+        this.taskDeadline = taskDeadline;
         this.taskCategory = taskCategory;
-        this.priorityLevel = priorityLevel;
-        this.isCompleted = isCompleted;
+        this.taskPriorityLevel = taskPriorityLevel;
+        this.isTaskCompleted = isTaskCompleted;
     }
 
     public int getTaskId() {
@@ -57,12 +59,12 @@ public class Task {
         this.taskContent = taskContent;
     }
 
-    public LocalDate getTaskDueDate() {
-        return taskDueDate;
+    public LocalDate getTaskDeadline() {
+        return taskDeadline;
     }
 
-    public void setTaskDueDate(LocalDate taskDueDate) {
-        this.taskDueDate = taskDueDate;
+    public void setTaskDeadline(LocalDate taskDeadline) {
+        this.taskDeadline = taskDeadline;
     }
 
     public String getTaskCategory() {
@@ -73,24 +75,32 @@ public class Task {
         this.taskCategory = taskCategory;
     }
 
-    public boolean isPriorityLevel() {
-        return priorityLevel;
+    public String getTaskPriorityLevel() {
+        return taskPriorityLevel;
     }
 
-    public void setPriorityLevel(boolean priorityLevel) {
-        this.priorityLevel = priorityLevel;
+    public void setTaskPriorityLevel(String taskPriorityLevel) {
+        this.taskPriorityLevel = taskPriorityLevel;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
+    public boolean isTaskCompleted() {
+        return isTaskCompleted;
     }
 
-    public void setCompleted(boolean completed) {
-        isCompleted = completed;
+    public void setTaskCompleted(boolean taskCompleted) {
+        isTaskCompleted = taskCompleted;
     }
 
     @Override
     public String toString() {
-        return "Task{" + "taskId=" + taskId + ", taskName='" + taskName + '\'' + ", taskContent='" + taskContent + '\'' + ", taskDueDate=" + taskDueDate + ", taskCategory='" + taskCategory + '\'' + ", priorityLevel=" + priorityLevel + ", isCompleted=" + isCompleted + '}';
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", taskContent='" + taskContent + '\'' +
+                ", taskDeadline=" + taskDeadline +
+                ", taskCategory='" + taskCategory + '\'' +
+                ", taskPriorityLevel='" + taskPriorityLevel + '\'' +
+                ", isTaskCompleted=" + isTaskCompleted +
+                '}';
     }
 }

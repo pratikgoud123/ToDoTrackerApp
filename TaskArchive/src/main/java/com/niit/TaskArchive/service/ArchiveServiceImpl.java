@@ -8,11 +8,13 @@
 package com.niit.TaskArchive.service;
 
 import com.niit.TaskArchive.domain.Task;
+import com.niit.TaskArchive.domain.User;
 import com.niit.TaskArchive.exception.TaskDoesNotExistsException;
 import com.niit.TaskArchive.repository.ArchiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,16 +28,68 @@ public class ArchiveServiceImpl implements IArchiveService{
     }
 
     @Override
-    public List<Task> getAllTasks() {
-        return archiveRepository.findAll();
+    public List<Task> getAllTasks(int userId) {
+
+        List<Task> tasks = archiveRepository.findById(userId).get().getTasks();
+
+        return tasks;
     }
 
     @Override
-    public boolean deleteTaskById(int taskId) throws TaskDoesNotExistsException {
-        if (archiveRepository.findById(taskId).isEmpty()){
+    public boolean deleteTask(int userId, int taskId) throws TaskDoesNotExistsException {
+        User user = archiveRepository.findById(userId).get();
+        List<Task> tasks = user.getTasks();
+        Task task = tasks.stream()
+                .filter(obj -> taskId==(obj.getTaskId()))
+                .findAny().orElse(null);
+        if(tasks == null || !tasks.contains(task)){
             throw new TaskDoesNotExistsException();
         }
-        archiveRepository.deleteById(taskId);
+        tasks.remove(task);
+        user.setTasks(tasks);
+        archiveRepository.save(user);
         return true;
+    }
+
+    @Override
+    public User saveUser(User user) {
+
+        return archiveRepository.save(user);
+    }
+
+    @Override
+    public boolean addTask(Task task, int userId) {
+
+        User user1 = archiveRepository.findById(userId).get();
+        List<Task> tasks = user1.getTasks();
+
+        if(user1.getTasks()==null){
+            user1.setTasks(Arrays.asList(task));
+        }
+        else {
+            tasks.add(task);
+            user1.setTasks(tasks);
+        }
+        archiveRepository.save(user1);
+
+        return true;
+    }
+
+    @Override
+    public Task updateTask(int userId, Task task) {
+
+        User user1 = archiveRepository.findById(userId).get();
+        List<Task> tasks = user1.getTasks();
+        for (Task taskToUpdate: tasks) {
+            if (taskToUpdate.getTaskId() == task.getTaskId()){
+                taskToUpdate.setTaskName(task.getTaskName());
+                taskToUpdate.setTaskContent(task.getTaskContent());
+                taskToUpdate.setTaskDeadline(task.getTaskDeadline());
+                taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
+                taskToUpdate.setTaskCompleted(task.isTaskCompleted());
+            }
+        }
+        archiveRepository.save(user1);
+        return task;
     }
 }

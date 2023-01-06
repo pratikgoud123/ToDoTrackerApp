@@ -1,12 +1,11 @@
 /*
  *Author Name: Nikita Chauhan
- *Date: 03-01-2023
+ *Date: 06-01-2023
  *Created With: IntelliJ IDEA Community Edition
  */
 
 
-package com.niit.TaskArchive.config;
-
+package com.niit.UserAuthentication.config;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

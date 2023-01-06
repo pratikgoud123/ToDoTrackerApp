@@ -19,10 +19,12 @@ public class User {
     private String role;
     private List<Task> tasks;
 
+    private String image;
+
     public User() {
     }
 
-    public User(int userId, String firstName, String lastName, String emailId, String password, String role, List<Task> tasks) {
+    public User(int userId, String firstName, String lastName, String emailId, String password, String role, List<Task> tasks, String image) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,6 +32,7 @@ public class User {
         this.password = password;
         this.role = role;
         this.tasks = tasks;
+        this.image = image;
     }
 
     public int getUserId() {
@@ -88,6 +91,14 @@ public class User {
         this.tasks = tasks;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -98,6 +109,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", tasks=" + tasks +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

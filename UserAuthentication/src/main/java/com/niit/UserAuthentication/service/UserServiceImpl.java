@@ -32,7 +32,6 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public User addUser(User user) throws UserAlreadyExistsException {
-       // userProxy.register(user);
         if(userRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }

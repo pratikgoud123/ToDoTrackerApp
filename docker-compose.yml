@@ -34,6 +34,7 @@ services:
     depends_on:
       - mysqlService
       - cloudapi-service
+      - rabbitmq-service
 
   mysqlService:
     image: mysql:latest
@@ -108,7 +109,7 @@ services:
     depends_on:
       - mongoService
       - cloudapi-service
-      - rabbitmq-service
+
 
 networks:
   mynetwork:

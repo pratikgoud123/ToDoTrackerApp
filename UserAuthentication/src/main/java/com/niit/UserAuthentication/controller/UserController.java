@@ -10,11 +10,15 @@ package com.niit.UserAuthentication.controller;
 import com.niit.UserAuthentication.domain.User;
 import com.niit.UserAuthentication.exception.UserAlreadyExistsException;
 import com.niit.UserAuthentication.exception.UserNotFoundException;
+import com.niit.UserAuthentication.service.SecurityTokenGenerator;
 import com.niit.UserAuthentication.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v2")
@@ -22,9 +26,12 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
+    private SecurityTokenGenerator securityTokenGenerator;
+
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, SecurityTokenGenerator securityTokenGenerator) {
         this.userService = userService;
+        this.securityTokenGenerator = securityTokenGenerator;
     }
 
     @PostMapping("/registerUser")
@@ -43,16 +50,22 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/login/{emailId}/{password}")
-    public ResponseEntity<?> loginUser(@PathVariable String emailId, @PathVariable String password) throws UserNotFoundException {
+    @PostMapping("/login")
+    public ResponseEntity<?> loginFun(@RequestBody User user) throws UserNotFoundException {
         try {
-            return new ResponseEntity<>(userService.loginCheck(emailId, password), HttpStatus.OK);
-        } catch (UserNotFoundException ue) {
+            System.out.println("Before Mapping");
+            userService.loginCheck(user.getEmailId(), user.getPassword());
+            System.out.println("After Mapping");
+            Map<String, String> secretKey = new HashMap<>();
+            secretKey = securityTokenGenerator.generateToken(user);
+            return new ResponseEntity<>(secretKey, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
             throw new UserNotFoundException();
         } catch (Exception e) {
             return new ResponseEntity<>("Network Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     @DeleteMapping("/deleteById/{userId}")
