@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping
 public class UserController {
     private final UserTaskServiceImpl userTaskService;
     @Autowired
@@ -20,7 +20,7 @@ public class UserController {
         this.userTaskService = userTaskService;
     }
 
-    @PostMapping("/saveUser")
+    @PostMapping("/api/AddUserInUserTask")
     public ResponseEntity<?> saveUser (@RequestBody User user) throws UserAlreadyExistsException {
         try{
             return new ResponseEntity<>(userTaskService.saveUser(user), HttpStatus.CREATED);
@@ -31,27 +31,27 @@ public class UserController {
         }
     }
 
-    @PutMapping("/addTask/{userId}")
+    @PutMapping("/api/ex/addTaskInUserTask/{userId}")
     public ResponseEntity<?> addTask (@PathVariable int userId, @RequestBody Task task) {
         return new ResponseEntity<>(userTaskService.addTask(userId, task), HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateTask/{userId}")
+    @PutMapping("/api/ex/updateTaskInUserTask/{userId}")
     public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
         return new ResponseEntity<>(userTaskService.updateTask(userId, task), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllUsers")
+    @GetMapping("/api/ex/getAllUsersFromUserTask")
     public ResponseEntity<?> getAllUsers (){
         return new ResponseEntity<>(userTaskService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllTasksOfUser/{userId}")
+    @GetMapping("/api/ex/getAllTasksOfUserFromUserTask/{userId}")
     public ResponseEntity<?> getAllTasksOfUser (@PathVariable int userId) {
         return new ResponseEntity<>(userTaskService.getAllTasksOfUser(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/getUserById/{userId}")
+    @GetMapping("/api/ex/getUserByIdInUserTask/{userId}")
     public ResponseEntity<?> getUserById (@PathVariable int userId) throws UserNotFoundException {
         try{
             return new ResponseEntity<>(userTaskService.getUserById(userId), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUserByEmailId/{emailId}")
+    @GetMapping("/api/ex/getUserByEmailIdInUserTask/{emailId}")
     public ResponseEntity<?> getUserByEmailId (@PathVariable String emailId) throws UserNotFoundException{
         try{
             return new ResponseEntity<>(userTaskService.getUserByEmailId(emailId), HttpStatus.OK);
@@ -73,7 +73,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getByTaskId/{userId}/{taskId}")
+    @GetMapping("/api/ex/getByTaskIdInUserTask/{userId}/{taskId}")
     public ResponseEntity<?> getTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskNotFoundException {
         try{
             return new ResponseEntity<>(userTaskService.getTaskByTaskId(userId, taskId), HttpStatus.OK);
@@ -84,12 +84,12 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteAllUser")
+    @DeleteMapping("/api/ex/deleteAllUserFromUserTask")
     public ResponseEntity<?> deleteAllUser () {
         return new ResponseEntity<>(userTaskService.deleteAllUser(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteUserById/{userId}")
+    @DeleteMapping("/api/ex/deleteUserByIdInUserTask/{userId}")
     public ResponseEntity<?> deleteUserById (@PathVariable int userId) throws UserNotFoundException {
         try{
             return new ResponseEntity<>(userTaskService.deleteUserById(userId), HttpStatus.OK);
@@ -100,7 +100,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteTaskByTaskId/{userId}/{taskId}")
+    @DeleteMapping("/api/ex/deleteTaskByTaskIdInUserTask/{userId}/{taskId}")
     public ResponseEntity<?> deleteTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskNotFoundException {
         try{
             return new ResponseEntity<>(userTaskService.deleteTaskByTaskId(userId, taskId), HttpStatus.OK);

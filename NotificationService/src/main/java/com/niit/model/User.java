@@ -11,11 +11,8 @@ public class User {
     @Id
     private int userId;
     private String emailId;
-
     private String firstName;
     private String lastName;
-
-
     private String role;
     private List<Task> tasks;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v4")
+@RequestMapping("/api/ex")
 public class ImpController {
     private ResponseEntity responseEntity;
 
@@ -25,16 +25,16 @@ public class ImpController {
     }
 
 
-    @PostMapping("/sendUser")
+    @PostMapping("/addUserInNotification")
     public ResponseEntity<?> saveUser(@RequestBody User user){
         return new ResponseEntity<>(impService.saveUser(user),HttpStatus.OK);
     }
-    @PutMapping("/add/{userId}")
+    @PutMapping("/addTaskInNotification/{userId}")
     public ResponseEntity<?> addTask(@RequestBody Task task, @PathVariable int userId){
         return new ResponseEntity<>(impService.addTask(task,userId),HttpStatus.OK);
 
     }
-    @PutMapping("/updateTask/{userId}")
+    @PutMapping("/updateTaskInNotification/{userId}")
     public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
         return new ResponseEntity<>(impService.updateTask(userId, task), HttpStatus.OK);
     }
@@ -43,20 +43,17 @@ public class ImpController {
         return new ResponseEntity<>(impService.getAllImpTask(userId),HttpStatus.OK);
     }
 
-    @GetMapping("/alltasks/{userId}")
+    @GetMapping("/getAllTasksFromNotification/{userId}")
     public ResponseEntity<?> getAllTasks(@PathVariable int userId){
         return new ResponseEntity<>(impService.getAllTask(userId),HttpStatus.OK);
     }
 
-
-    @DeleteMapping("/delete/{userId}/{taskId}")
+    @DeleteMapping("/deleteFromNotification/{userId}/{taskId}")
     public ResponseEntity<?> deleteTask(@PathVariable("userId") int userId, @PathVariable("taskId") int taskId) throws ImpNotFoundException {
         impService.deleteTask(userId,taskId);
         return new ResponseEntity<>("Task deleted",HttpStatus.OK);
 
     }
-
-
 
 }
 

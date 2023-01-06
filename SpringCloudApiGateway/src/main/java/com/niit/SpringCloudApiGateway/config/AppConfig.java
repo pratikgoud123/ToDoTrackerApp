@@ -21,14 +21,16 @@ public class AppConfig {
 
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-        return builder.routes().route(p -> p.path("/api/v1/**").uri("http://tracker-service:8083/")) // use the name of the application in the uri
+        return builder.routes().route(p -> p.path("/api/**").uri("http://tracker-service:8083/")) // use the name of the application in the uri
 
-                .route(p -> p.path("/api/v2/**").uri("http://authentication-service:8086/"))
+                .route(p -> p.path("/api/**").uri("http://authentication-service:8086/"))
 
-                .route(p -> p.path("/api/v4/**").uri("http://notification-service:8082/"))
+                .route(p -> p.path("/api/**").uri("http://notification-service:8082/"))
 
-                .route(p -> p.path("/api/v3/**").uri("http://archive-service:8081/"))
+                .route(p -> p.path("/api/**").uri("http://archive-service:8081/"))
 
                 .build();
     }
+
+
 }

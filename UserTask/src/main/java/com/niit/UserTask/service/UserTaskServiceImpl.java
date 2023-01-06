@@ -21,13 +21,11 @@ import java.util.Optional;
 @Service
 public class UserTaskServiceImpl implements IUserTaskService{
     private UserTaskRepository userTaskRepository;
-    private UserProxy userProxy;
     private UserNotificationProxy userNotificationProxy;
     private Producer producer;
     @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserProxy userProxy, UserNotificationProxy userNotificationProxy, Producer producer) {
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer) {
         this.userTaskRepository = userTaskRepository;
-        this.userProxy = userProxy;
         this.userNotificationProxy = userNotificationProxy;
         this.producer = producer;
     }
@@ -37,8 +35,20 @@ public class UserTaskServiceImpl implements IUserTaskService{
         if (userTaskRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
-        userProxy.saveUserDetailFromUserTask(user);
-        userNotificationProxy.saveUserToNotification(user);
+        userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
+
+        try{
+            System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
+            UserDTO userDTO = new UserDTO();
+
+            userDTO.setEmailId(user.getEmailId());
+            userDTO.setPassword(user.getPassword());
+
+            producer.sendUserMsg(userDTO);
+
+        }catch(Exception exception){
+            System.out.println(exception.getStackTrace());
+        }
 
         return userTaskRepository.save(user);
     }
@@ -56,22 +66,6 @@ public class UserTaskServiceImpl implements IUserTaskService{
 
         userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
 
-        try{
-            System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
-            TaskDTO taskDTO = new TaskDTO();
-
-            taskDTO.setTaskId(task.getTaskId());
-            taskDTO.setTaskName(task.getTaskName());
-            taskDTO.setTaskContent(task.getTaskContent());
-            taskDTO.setTaskDeadline(task.getTaskDeadline());
-            taskDTO.setTaskCategory(task.getTaskCategory());
-            taskDTO.setTaskPriorityLevel(task.getTaskPriorityLevel());
-            taskDTO.setTaskCompleted(task.isTaskCompleted());
-            producer.sendTaskMsg(taskDTO);
-
-        }catch(Exception exception){
-            System.out.println(exception.getStackTrace());
-        }
         return task;
     }
 
@@ -84,29 +78,14 @@ public class UserTaskServiceImpl implements IUserTaskService{
                 taskToUpdate.setTaskName(task.getTaskName());
                 taskToUpdate.setTaskContent(task.getTaskContent());
                 taskToUpdate.setTaskDeadline(task.getTaskDeadline());
+                taskToUpdate.setTaskCategory(task.getTaskCategory());
                 taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
                 taskToUpdate.setTaskCompleted(task.isTaskCompleted());
             }
         }
         userTaskRepository.save(user1);
-        userNotificationProxy.updateTask(userId,task);
 
-        try{
-            System.out.println(" task data fetched from client request---" + task.toString());                          //RabbitMQ (TaskArchive-service)
-            TaskDTO taskDTO = new TaskDTO();
-
-            taskDTO.setTaskId(task.getTaskId());
-            taskDTO.setTaskName(task.getTaskName());
-            taskDTO.setTaskContent(task.getTaskContent());
-            taskDTO.setTaskDeadline(task.getTaskDeadline());
-            taskDTO.setTaskCategory(task.getTaskCategory());
-            taskDTO.setTaskPriorityLevel(task.getTaskPriorityLevel());
-            taskDTO.setTaskCompleted(task.isTaskCompleted());
-            producer.sendTaskMsg(taskDTO);
-
-        }catch(Exception exception){
-            System.out.println(exception.getStackTrace());
-        }
+        userNotificationProxy.updateTask(userId,task);                                                                  //feignClient(Notification-service)
 
         return task;
     }
@@ -127,24 +106,6 @@ public class UserTaskServiceImpl implements IUserTaskService{
     public Optional<User> getUserById(int userId) throws UserNotFoundException {
         if (userTaskRepository.findById(userId).isEmpty()){
             throw new UserNotFoundException();
-        }
-        User user1 = userTaskRepository.findById(userId).get();
-        try{
-            System.out.println(" user data fetched from client request---" + user1.toString());
-            UserDTO userDTO = new UserDTO();
-
-            userDTO.setUserId(user1.getUserId());
-            userDTO.setFirstName(user1.getFirstName());
-            userDTO.setLastName(user1.getLastName());
-            userDTO.setEmailId(user1.getEmailId());
-            userDTO.setPassword(user1.getPassword());
-            userDTO.setRole(user1.getRole());
-            userDTO.setTasks(user1.getTasks());
-
-            producer.sendUserMsg(userDTO);
-
-        }catch(Exception exception){
-            System.out.println(exception.getStackTrace());
         }
         return userTaskRepository.findById(userId);
     }
@@ -200,6 +161,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
         tasks.remove(task);
         user.setTasks(tasks);
         userTaskRepository.save(user);
+
         return true;
     }
 }

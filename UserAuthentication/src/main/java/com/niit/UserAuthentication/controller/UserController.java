@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping
 public class UserController {
 
     private final UserServiceImpl userService;
@@ -34,7 +34,7 @@ public class UserController {
         this.securityTokenGenerator = securityTokenGenerator;
     }
 
-    @PostMapping("/registerUser")
+    @PostMapping("/api/registerUser")
     public ResponseEntity<?> insertUser(@RequestBody User user) throws UserAlreadyExistsException {
         try {
             return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
@@ -45,12 +45,12 @@ public class UserController {
         }
     }
 
-    @GetMapping("/fetchAllUsers")
+    @GetMapping("/api/ex/fetchAllUsersFromUserAuth")
     public ResponseEntity<?> fetchAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<?> loginFun(@RequestBody User user) throws UserNotFoundException {
         try {
             System.out.println("Before Mapping");
@@ -66,9 +66,7 @@ public class UserController {
         }
     }
 
-
-
-    @DeleteMapping("/deleteById/{userId}")
+    @DeleteMapping("/api/ex/deleteByIdInUserAuth/{userId}")
     public ResponseEntity<?> deleteByUserId(@PathVariable int userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>("User record has been deleted", HttpStatus.OK);
