@@ -1,7 +1,6 @@
 package com.niit.UserTask.service;
 
 import com.niit.UserTask.config.Producer;
-import com.niit.UserTask.config.TaskDTO;
 import com.niit.UserTask.config.UserDTO;
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
@@ -9,13 +8,11 @@ import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
 import com.niit.UserTask.proxy.UserNotificationProxy;
-import com.niit.UserTask.proxy.UserProxy;
 import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Service

@@ -20,11 +20,27 @@ public class SpringCloudApiGatewayApplication {
 	}
 
 	@Bean
-	public FilterRegistrationBean jwtFilter()
-	{
+	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+		return builder.routes()
+				.route(p -> p.path("/api/**").uri("http://tracker-service:8083/")) // use the name of the application in the uri
+
+				.route(p -> p.path("/api/**").uri("http://authentication-service:8086/"))
+
+				.route(p -> p.path("/api/**").uri("http://archive-service:8081/"))
+
+				.route(p -> p.path("/api/**").uri("http://notification-service:8082/"))
+
+				.build();
+	}
+
+	@Bean
+	public FilterRegistrationBean jwtFilter() {
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
 		filterRegistrationBean.setFilter(new Filter());
-		filterRegistrationBean.addUrlPatterns("/api/ex/**");
+		filterRegistrationBean.addUrlPatterns("/api/v1","/api/v1/*/*",
+												"/api/v2","/api/v2/*",
+												"/api/v3","/api/v3/*/*",
+												"/api/v4","/api/v4/*/*");
 		return filterRegistrationBean;
 
 	}

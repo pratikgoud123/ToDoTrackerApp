@@ -34,7 +34,7 @@ public class UserController {
         this.securityTokenGenerator = securityTokenGenerator;
     }
 
-    @PostMapping("/api/registerUser")
+    @PostMapping("/api/ex/AddUserInUserAuth")
     public ResponseEntity<?> insertUser(@RequestBody User user) throws UserAlreadyExistsException {
         try {
             return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
@@ -45,12 +45,12 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/ex/fetchAllUsersFromUserAuth")
+    @GetMapping("/api/v2/fetchAllUsersFromUserAuth")
     public ResponseEntity<?> fetchAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/api/ex/login")
     public ResponseEntity<?> loginFun(@RequestBody User user) throws UserNotFoundException {
         try {
             System.out.println("Before Mapping");
@@ -66,7 +66,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/api/ex/deleteByIdInUserAuth/{userId}")
+    @DeleteMapping("/api/v2/deleteByIdInUserAuth/{userId}")
     public ResponseEntity<?> deleteByUserId(@PathVariable int userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>("User record has been deleted", HttpStatus.OK);
