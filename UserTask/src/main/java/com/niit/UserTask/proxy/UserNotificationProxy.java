@@ -19,10 +19,10 @@ to send data to Notification service
 public interface UserNotificationProxy {
 
 
-    @PostMapping("/api/v4/sendUser")
+    @PostMapping("/api/v4/addUserInNotification")
     public ResponseEntity<?> saveUserToNotification (@RequestBody User user);
-    @PutMapping("/api/v4/add/{userId}")
+    @PutMapping("/api/v4/addTaskInNotification/{userId}")
     public ResponseEntity<?> saveTaskDetailFromUserTask (@RequestBody Task task, @PathVariable int userId);
-    @PutMapping("/api/v4/updateTask/{userId}")
-    public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) ;
+    @PutMapping("/api/v4/updateTaskInNotification/{userId}")
+    public ResponseEntity<?> updateTask ( @RequestBody Task task,@PathVariable int userId) ;
 }

@@ -78,7 +78,7 @@ public class ImpServiceImpl implements ImpService{
     }
 
     @Override
-    public Task updateTask(int userId, Task task) {
+    public Task updateTask(Task task,int userId) {
         User user1 = impRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
@@ -92,6 +92,11 @@ public class ImpServiceImpl implements ImpService{
         }
         impRepository.save(user1);
         return task;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return impRepository.findAll();
     }
 
 

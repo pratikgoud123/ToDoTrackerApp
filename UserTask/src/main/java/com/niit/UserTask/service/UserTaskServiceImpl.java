@@ -67,7 +67,24 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public Task updateTask(int userId, Task task) {
+    public Task updateTask( Task task,int userId) {
+//        User user1 = userTaskRepository.findById(userId).get();
+//        List<Task> tasks = user1.getTasks();
+//        for (Task taskToUpdate: tasks) {
+//            if (taskToUpdate.getTaskId() == task.getTaskId()){
+//                taskToUpdate.setTaskName(task.getTaskName());
+//                taskToUpdate.setTaskContent(task.getTaskContent());
+//                taskToUpdate.setTaskDeadline(task.getTaskDeadline());
+//                taskToUpdate.setTaskCategory(task.getTaskCategory());
+//                taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
+//                taskToUpdate.setTaskCompleted(task.isTaskCompleted());
+//            }
+//        }
+//        userTaskRepository.save(user1);
+//
+//        userNotificationProxy.updateTask(task,userId);                                                                  //feignClient(Notification-service)
+//
+//        return task;
         User user1 = userTaskRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
@@ -75,15 +92,12 @@ public class UserTaskServiceImpl implements IUserTaskService{
                 taskToUpdate.setTaskName(task.getTaskName());
                 taskToUpdate.setTaskContent(task.getTaskContent());
                 taskToUpdate.setTaskDeadline(task.getTaskDeadline());
-                taskToUpdate.setTaskCategory(task.getTaskCategory());
                 taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
                 taskToUpdate.setTaskCompleted(task.isTaskCompleted());
             }
         }
         userTaskRepository.save(user1);
-
-        userNotificationProxy.updateTask(userId,task);                                                                  //feignClient(Notification-service)
-
+        userNotificationProxy.updateTask(task,userId);
         return task;
     }
 

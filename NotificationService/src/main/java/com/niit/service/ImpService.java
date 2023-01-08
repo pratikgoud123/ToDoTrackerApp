@@ -16,6 +16,8 @@ public interface ImpService {
 
     public List<Task> getAllImpTask(int userId);
     public boolean addTask(Task task, int userId);
-    Task updateTask (int userId, Task task);
+    Task updateTask (Task task,int userId );
+
+    List<User> getAllUsers();
 
 }

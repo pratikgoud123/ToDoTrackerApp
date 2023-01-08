@@ -35,17 +35,23 @@ public class ImpController {
 
     }
     @PutMapping("/updateTaskInNotification/{userId}")
-    public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
-        return new ResponseEntity<>(impService.updateTask(userId, task), HttpStatus.OK);
+    public ResponseEntity<?> updateTask ( @RequestBody Task task,@PathVariable int userId) {
+        return new ResponseEntity<>(impService.updateTask( task, userId), HttpStatus.OK);
     }
-    @GetMapping("/imptasks/{userId}")
+    @GetMapping("/notification/imptasks/{userId}")
     public ResponseEntity<?> getAllImpTasks(@PathVariable int userId){
         return new ResponseEntity<>(impService.getAllImpTask(userId),HttpStatus.OK);
     }
 
-    @GetMapping("/getAllTasksFromNotification/{userId}")
+    @GetMapping("/notification/getAllTasksFromNotification/{userId}")
     public ResponseEntity<?> getAllTasks(@PathVariable int userId){
         return new ResponseEntity<>(impService.getAllTask(userId),HttpStatus.OK);
+    }
+
+
+    @GetMapping("/notification/getAllUser")
+    public ResponseEntity<?> getAllUser(){
+        return new ResponseEntity<>(impService.getAllUsers(),HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteFromNotification/{userId}/{taskId}")

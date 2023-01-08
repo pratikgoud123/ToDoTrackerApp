@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface IUserTaskService {
     User saveUser (User user) throws UserAlreadyExistsException;
     Task addTask (int userId, Task task);
-    Task updateTask (int userId, Task task);
+    Task updateTask (Task task,int userId);
     List<User> getAllUsers ();
     List<Task> getAllTasksOfUser (int userId);
     Optional<User> getUserById (int userId) throws UserNotFoundException;
