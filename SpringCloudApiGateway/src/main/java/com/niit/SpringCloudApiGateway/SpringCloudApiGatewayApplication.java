@@ -3,8 +3,10 @@ package com.niit.SpringCloudApiGateway;
 
 
 
+//import com.niit.SpringCloudApiGateway.fillter.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -33,6 +35,16 @@ public class SpringCloudApiGatewayApplication {
 
 				.build();
 	}
+
+
+//	@Bean
+//	public FilterRegistrationBean jwtFilter()
+//	{
+//		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
+//		filterRegistrationBean.setFilter(new JwtFilter());
+//		filterRegistrationBean.addUrlPatterns("/api/v2/user/*");
+//		return filterRegistrationBean;
+//	}
 
 
 
