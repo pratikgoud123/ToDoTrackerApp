@@ -7,6 +7,7 @@
 
 package com.niit.UserAuthentication.controller;
 
+import com.niit.UserAuthentication.domain.LoginResponse;
 import com.niit.UserAuthentication.domain.User;
 import com.niit.UserAuthentication.exception.UserAlreadyExistsException;
 import com.niit.UserAuthentication.exception.UserNotFoundException;
@@ -54,11 +55,14 @@ public class UserController {
     public ResponseEntity<?> loginFun(@RequestBody User user) throws UserNotFoundException {
         try {
             System.out.println("Before Mapping");
-            userService.loginCheck(user.getEmailId(), user.getPassword());
+            User user1 = userService.loginCheck(user.getEmailId(), user.getPassword());
             System.out.println("After Mapping");
             Map<String, String> secretKey = new HashMap<>();
             secretKey = securityTokenGenerator.generateToken(user);
-            return new ResponseEntity<>(secretKey, HttpStatus.OK);
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setUser(user1);
+            loginResponse.setSecretKeyToken(secretKey);
+            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             throw new UserNotFoundException();
         } catch (Exception e) {

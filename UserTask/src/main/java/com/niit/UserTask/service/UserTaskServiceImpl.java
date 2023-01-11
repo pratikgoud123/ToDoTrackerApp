@@ -38,6 +38,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
             System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
             UserDTO userDTO = new UserDTO();
 
+            userDTO.setUserId(user.getUserId());
             userDTO.setEmailId(user.getEmailId());
             userDTO.setPassword(user.getPassword());
 
