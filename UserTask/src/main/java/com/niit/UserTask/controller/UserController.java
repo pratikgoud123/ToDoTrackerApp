@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/task/getUserByEmailIdInUserTask/{emailId}")
+    @GetMapping("/getUserByEmailIdInUserTask/{emailId}")
     public ResponseEntity<?> getUserByEmailId (@PathVariable String emailId) throws UserNotFoundException{
         try{
             return new ResponseEntity<>(userTaskService.getUserByEmailId(emailId), HttpStatus.OK);
