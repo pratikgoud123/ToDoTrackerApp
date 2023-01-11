@@ -15,7 +15,6 @@ import javax.persistence.Id;
 public class User {
 
     @Id
-    @GeneratedValue
     private int userId;
     private String emailId;
     private String password;

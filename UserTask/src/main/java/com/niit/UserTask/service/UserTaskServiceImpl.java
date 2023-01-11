@@ -38,6 +38,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
             System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
             UserDTO userDTO = new UserDTO();
 
+            userDTO.setUserId(user.getUserId());
             userDTO.setEmailId(user.getEmailId());
             userDTO.setPassword(user.getPassword());
 
@@ -68,23 +69,6 @@ public class UserTaskServiceImpl implements IUserTaskService{
 
     @Override
     public Task updateTask( Task task,int userId) {
-//        User user1 = userTaskRepository.findById(userId).get();
-//        List<Task> tasks = user1.getTasks();
-//        for (Task taskToUpdate: tasks) {
-//            if (taskToUpdate.getTaskId() == task.getTaskId()){
-//                taskToUpdate.setTaskName(task.getTaskName());
-//                taskToUpdate.setTaskContent(task.getTaskContent());
-//                taskToUpdate.setTaskDeadline(task.getTaskDeadline());
-//                taskToUpdate.setTaskCategory(task.getTaskCategory());
-//                taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
-//                taskToUpdate.setTaskCompleted(task.isTaskCompleted());
-//            }
-//        }
-//        userTaskRepository.save(user1);
-//
-//        userNotificationProxy.updateTask(task,userId);                                                                  //feignClient(Notification-service)
-//
-//        return task;
         User user1 = userTaskRepository.findById(userId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
