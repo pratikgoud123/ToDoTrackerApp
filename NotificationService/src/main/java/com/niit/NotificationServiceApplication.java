@@ -1,6 +1,6 @@
 package com.niit;
 
-import com.niit.fillter.NotificationFilter;
+//import com.niit.fillter.NotificationFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,13 +15,13 @@ public class NotificationServiceApplication {
 		SpringApplication.run(NotificationServiceApplication.class, args);
 	}
 
-	@Bean
-	public FilterRegistrationBean jwtFilter()
-	{
-		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
-		filterRegistrationBean.setFilter(new NotificationFilter());
-		filterRegistrationBean.addUrlPatterns("/api/v4/notification/*");
-		return filterRegistrationBean;
-	}
+//	@Bean
+//	public FilterRegistrationBean jwtFilter()
+//	{
+//		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
+//		filterRegistrationBean.setFilter(new NotificationFilter());
+//		filterRegistrationBean.addUrlPatterns("/api/v4/notification/*");
+//		return filterRegistrationBean;
+//	}
 
 }

@@ -3,7 +3,7 @@ package com.niit.SpringCloudApiGateway;
 
 
 
-//import com.niit.SpringCloudApiGateway.fillter.JwtFilter;
+import com.niit.SpringCloudApiGateway.fillter.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -37,14 +37,14 @@ public class SpringCloudApiGatewayApplication {
 	}
 
 
-//	@Bean
-//	public FilterRegistrationBean jwtFilter()
-//	{
-//		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
-//		filterRegistrationBean.setFilter(new JwtFilter());
-//		filterRegistrationBean.addUrlPatterns("/api/v2/user/*");
-//		return filterRegistrationBean;
-//	}
+	@Bean
+	public FilterRegistrationBean jwtFilter()
+	{
+		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new JwtFilter());
+		filterRegistrationBean.addUrlPatterns("/api/v1/task/*");
+		return filterRegistrationBean;
+	}
 
 
 

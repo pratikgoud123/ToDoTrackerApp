@@ -46,7 +46,7 @@ public class UserController {
         return new ResponseEntity<>(userTaskService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/task/getAllTasksOfUserFromUserTask/{userId}")
+    @GetMapping("/getAllTasksOfUserFromUserTask/{userId}")
     public ResponseEntity<?> getAllTasksOfUser (@PathVariable int userId) {
         return new ResponseEntity<>(userTaskService.getAllTasksOfUser(userId), HttpStatus.OK);
     }
