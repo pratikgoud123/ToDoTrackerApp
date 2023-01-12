@@ -1,5 +1,6 @@
 package com.niit.UserTask.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
 import com.niit.UserTask.exception.TaskNotFoundException;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,9 +25,11 @@ public class UserController {
     }
 
     @PostMapping("/AddUserInUserTask")
-    public ResponseEntity<?> saveUser (@RequestBody User user) throws UserAlreadyExistsException {
+    public ResponseEntity<?> saveUser (@RequestParam("file") MultipartFile file, @RequestParam("user") String user) throws UserAlreadyExistsException, IOException {
+        User user1 = new ObjectMapper().readValue(user, User.class);
         try{
-            return new ResponseEntity<>(userTaskService.saveUser(user), HttpStatus.CREATED);
+
+            return new ResponseEntity<>(userTaskService.saveUser(user1,file), HttpStatus.CREATED);
         }catch(UserAlreadyExistsException e){
             throw new UserAlreadyExistsException();
         }catch(Exception e){

@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Document
@@ -16,7 +16,8 @@ public class User {
     private int userId;
     private String firstName;
     private String lastName;
-    private String image;
+    private String file;
+    private byte[] img;
     private String emailId;
     private String password;
     private String role;
@@ -25,15 +26,24 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String firstName, String lastName, String image, String emailId, String password, String role, List<Task> tasks) {
+    public User(int userId, String firstName, String lastName, String file, byte[] img, String emailId, String password, String role, List<Task> tasks) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.image = image;
+        this.file = file;
+        this.img = img;
         this.emailId = emailId;
         this.password = password;
         this.role = role;
         this.tasks = tasks;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
     }
 
     public int getUserId() {
@@ -60,12 +70,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getImage() {
-        return image;
+    public String getFile() {
+        return file;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public String getEmailId() {
@@ -106,7 +116,8 @@ public class User {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", image='" + image + '\'' +
+                ", file='" + file + '\'' +
+                ", img=" + Arrays.toString(img) +
                 ", emailId='" + emailId + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +

@@ -11,7 +11,9 @@ import com.niit.UserTask.proxy.UserNotificationProxy;
 import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,17 +38,18 @@ public class UserTaskServiceImpl implements IUserTaskService{
 
 
     @Override
-    public User saveUser(User user) throws UserAlreadyExistsException {
+    public User saveUser(User user, MultipartFile file) throws UserAlreadyExistsException, IOException {
         if (userTaskRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
         user.setUserId(service.getSequenceNumber(SEQUENCE_NAME));
+        user.setImg(file.getBytes());
+        user.setFile(file.getOriginalFilename());
         userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
 
         try{
             System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
             UserDTO userDTO = new UserDTO();
-
             userDTO.setUserId(user.getUserId());
             userDTO.setEmailId(user.getEmailId());
             userDTO.setPassword(user.getPassword());
@@ -70,7 +73,6 @@ public class UserTaskServiceImpl implements IUserTaskService{
         tasks.add(task);
         user1.setTasks(tasks);
         userTaskRepository.save(user1);
-
         userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
 
         return task;
@@ -95,20 +97,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
         userNotificationProxy.updateTask(task,userId);                                                                  //feignClient(Notification-service)
 
         return task;
-//        User user1 = userTaskRepository.findById(userId).get();
-//        List<Task> tasks = user1.getTasks();
-//        for (Task taskToUpdate: tasks) {
-//            if (taskToUpdate.getTaskId() == task.getTaskId()){
-//                taskToUpdate.setTaskName(task.getTaskName());
-//                taskToUpdate.setTaskContent(task.getTaskContent());
-//                taskToUpdate.setTaskDeadline(task.getTaskDeadline());
-//                taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
-//                taskToUpdate.setTaskCompleted(task.isTaskCompleted());
-//            }
-//        }
-//        userTaskRepository.save(user1);
-//        userNotificationProxy.updateTask(task,userId);
-//        return task;
+
     }
 
     @Override
