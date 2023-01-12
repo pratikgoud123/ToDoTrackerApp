@@ -15,23 +15,32 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.niit.UserTask.domain.User.SEQUENCE_NAME;
+
 @Service
 public class UserTaskServiceImpl implements IUserTaskService{
     private UserTaskRepository userTaskRepository;
     private UserNotificationProxy userNotificationProxy;
     private Producer producer;
+    private SequenceGeneratorService service ;
     @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer) {
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer, SequenceGeneratorService service) {
         this.userTaskRepository = userTaskRepository;
         this.userNotificationProxy = userNotificationProxy;
         this.producer = producer;
+        this.service = service;
     }
+
+
+
 
     @Override
     public User saveUser(User user) throws UserAlreadyExistsException {
         if (userTaskRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
+        user.setUserId(service.getSequenceNumber(SEQUENCE_NAME));
         userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
 
         try{

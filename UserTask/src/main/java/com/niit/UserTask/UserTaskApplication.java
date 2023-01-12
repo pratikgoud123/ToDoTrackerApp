@@ -1,6 +1,6 @@
 package com.niit.UserTask;
 
-//import com.niit.UserTask.fillter.Filter;
+import com.niit.UserTask.fillter.Filter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -18,13 +18,13 @@ public class UserTaskApplication {
 
 
 
-//	@Bean
-//	public FilterRegistrationBean jwtFilter()
-//	{
-//		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
-//		filterRegistrationBean.setFilter(new Filter());
-//		filterRegistrationBean.addUrlPatterns("/api/v1/task/*");
-//
-//		return filterRegistrationBean;
-//	}
+	@Bean
+	public FilterRegistrationBean jwtFilter()
+	{
+		FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new Filter());
+		filterRegistrationBean.addUrlPatterns("/api/v1/task/*");
+
+		return filterRegistrationBean;
+	}
 }

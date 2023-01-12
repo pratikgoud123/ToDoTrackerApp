@@ -46,7 +46,7 @@ public class UserController {
         return new ResponseEntity<>(userTaskService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllTasksOfUserFromUserTask/{userId}")
+    @GetMapping("/task/getAllTasksOfUserFromUserTask/{userId}")
     public ResponseEntity<?> getAllTasksOfUser (@PathVariable int userId) {
         return new ResponseEntity<>(userTaskService.getAllTasksOfUser(userId), HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUserByEmailIdInUserTask/{emailId}")
+    @GetMapping("/task/getUserByEmailIdInUserTask/{emailId}")
     public ResponseEntity<?> getUserByEmailId (@PathVariable String emailId) throws UserNotFoundException{
         try{
             return new ResponseEntity<>(userTaskService.getUserByEmailId(emailId), HttpStatus.OK);
