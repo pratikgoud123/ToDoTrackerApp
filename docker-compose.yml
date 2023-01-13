@@ -24,7 +24,7 @@ services:
 
   authentication-service:
     image: authentication_image
-    container_name: authentication-service
+    container_name: authentication-serviceæ
     build: UserAuthentication/
     restart: always
     networks:
