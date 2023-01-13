@@ -7,10 +7,14 @@
 
 package com.niit.TaskArchive.domain;
 
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+@Document
 public class User {
 
+    @Id
     private int userId;
     private String firstName;
     private String lastName;

@@ -7,6 +7,7 @@ import com.niit.UserTask.domain.User;
 import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
+import com.niit.UserTask.proxy.UserArchiveProxy;
 import com.niit.UserTask.proxy.UserNotificationProxy;
 import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,19 @@ public class UserTaskServiceImpl implements IUserTaskService{
     private UserNotificationProxy userNotificationProxy;
     private Producer producer;
     private SequenceGeneratorService service ;
+
+    private UserArchiveProxy archiveProxy;
     @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer, SequenceGeneratorService service) {
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer, SequenceGeneratorService service, UserArchiveProxy archiveProxy) {
         this.userTaskRepository = userTaskRepository;
         this.userNotificationProxy = userNotificationProxy;
         this.producer = producer;
         this.service = service;
+        this.archiveProxy = archiveProxy;
     }
+
+
+
 
 
 
@@ -45,6 +52,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
         user.setUserId(service.getSequenceNumber(SEQUENCE_NAME));
         user.setImg(file.getBytes());
         user.setFile(file.getOriginalFilename());
+        archiveProxy.saveUserToarchive(user);
         userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
 
         try{

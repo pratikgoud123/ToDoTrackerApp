@@ -7,6 +7,7 @@
 
 package com.niit.UserAuthentication.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ public class User {
 
     @Id
     private int userId;
-
+    @Column(unique = true)
     private String emailId;
     private String password;
 
