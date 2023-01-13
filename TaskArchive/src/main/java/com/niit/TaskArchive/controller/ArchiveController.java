@@ -40,11 +40,21 @@ public class ArchiveController {
         return new ResponseEntity<>(iArchiveService.getAllTasks(userId),HttpStatus.OK);
     }
 
-
     @DeleteMapping("/deleteTaskFromArchive/{userId}/{taskId}")
     public ResponseEntity<?> deleteTask(@PathVariable("userId") int userId, @PathVariable("taskId") int taskId) throws TaskDoesNotExistsException {
-        iArchiveService.deleteTask(userId,taskId);
+        iArchiveService.deleteTaskByTaskId(userId,taskId);
         return new ResponseEntity<>("Task deleted",HttpStatus.OK);
 
+    }
+
+    @GetMapping("/getByTaskIdInUserTask/{userId}/{taskId}")
+    public ResponseEntity<?> getTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskDoesNotExistsException {
+        try{
+            return new ResponseEntity<>(iArchiveService.getTaskByTaskId(userId, taskId), HttpStatus.OK);
+        }catch(TaskDoesNotExistsException e){
+            throw new TaskDoesNotExistsException();
+        }catch(Exception e){
+            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

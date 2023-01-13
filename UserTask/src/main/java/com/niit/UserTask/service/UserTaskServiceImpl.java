@@ -38,12 +38,6 @@ public class UserTaskServiceImpl implements IUserTaskService{
         this.archiveProxy = archiveProxy;
     }
 
-
-
-
-
-
-
     @Override
     public User saveUser(User user, MultipartFile file) throws UserAlreadyExistsException, IOException {
         if (userTaskRepository.findById(user.getUserId()).isPresent()){

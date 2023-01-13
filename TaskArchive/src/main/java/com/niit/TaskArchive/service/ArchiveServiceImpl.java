@@ -36,7 +36,7 @@ public class ArchiveServiceImpl implements IArchiveService{
     }
 
     @Override
-    public boolean deleteTask(int userId, int taskId) throws TaskDoesNotExistsException {
+    public boolean deleteTaskByTaskId(int userId, int taskId) throws TaskDoesNotExistsException {
         User user = archiveRepository.findById(userId).get();
         List<Task> tasks = user.getTasks();
         Task task = tasks.stream()
@@ -90,6 +90,21 @@ public class ArchiveServiceImpl implements IArchiveService{
             }
         }
         archiveRepository.save(user1);
+        return task;
+    }
+
+    @Override
+    public Task getTaskByTaskId(int userId, int taskId) throws TaskDoesNotExistsException {
+        User user1 = archiveRepository.findById(userId).get();
+        List<Task> tasks = user1.getTasks();
+        Task task = tasks.stream()
+                .filter(obj -> taskId==(obj.getTaskId()))
+                .findAny().orElse(null);
+        if(tasks == null || !tasks.contains(task)){
+            throw new TaskDoesNotExistsException();
+        }
+        archiveRepository.save(user1);
+
         return task;
     }
 }
