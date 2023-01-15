@@ -23,4 +23,6 @@ public interface IUserTaskService {
     boolean deleteUserById (String emailId) throws UserNotFoundException;
     boolean deleteTaskByTaskId (String emailId, String taskName) throws TaskNotFoundException;
 
+    List<Task> getCompletedTask(String emailId);
+
 }

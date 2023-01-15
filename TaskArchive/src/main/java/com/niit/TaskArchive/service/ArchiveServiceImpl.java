@@ -38,7 +38,7 @@ public class ArchiveServiceImpl implements IArchiveService{
         User user = archiveRepository.findById(emailId).get();
         List<Task> tasks = user.getTasks();
         Task task = tasks.stream()
-                .filter(obj -> taskName==(obj.getTaskName()))
+                .filter(obj -> taskName.equalsIgnoreCase(obj.getTaskName()))
                 .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new TaskDoesNotExistsException();
@@ -76,7 +76,7 @@ public class ArchiveServiceImpl implements IArchiveService{
         User user1 = archiveRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
-            if (taskToUpdate.getTaskName() == task.getTaskName()){
+            if (taskToUpdate.getTaskName().equalsIgnoreCase(task.getTaskName())){
                 taskToUpdate.setTaskName(task.getTaskName());
                 taskToUpdate.setTaskContent(task.getTaskContent());
                 taskToUpdate.setImageURL(task.getImageURL());
@@ -94,7 +94,7 @@ public class ArchiveServiceImpl implements IArchiveService{
         User user1 = archiveRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         Task task = tasks.stream()
-                .filter(obj -> taskName==(obj.getTaskName()))
+                .filter(obj -> taskName.equalsIgnoreCase(obj.getTaskName()))
                 .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new TaskDoesNotExistsException();

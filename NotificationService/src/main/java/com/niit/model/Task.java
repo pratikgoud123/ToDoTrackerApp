@@ -1,7 +1,9 @@
 package com.niit.model;
 
-import java.util.Date;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+@Document
 public class Task {
     private  int taskId;
     private String taskName;

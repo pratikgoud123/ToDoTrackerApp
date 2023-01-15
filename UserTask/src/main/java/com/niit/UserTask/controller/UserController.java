@@ -78,6 +78,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/completed/{emailId}")
+    public ResponseEntity<?> getAllImpTasks(@PathVariable String emailId){
+        return new ResponseEntity<>(userTaskService.getCompletedTask(emailId),HttpStatus.OK);
+    }
+
     @DeleteMapping("/task/deleteAllUserFromUserTask")
     public ResponseEntity<?> deleteAllUser () {
         return new ResponseEntity<>(userTaskService.deleteAllUser(), HttpStatus.OK);
