@@ -14,22 +14,16 @@ import javax.persistence.Id;
 
 @Entity
 public class User {
-
     @Id
-    private int userId;
-    @Column(unique = true)
     private String emailId;
     private String password;
 
     public User() {
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public User(String emailId, String password) {
+        this.emailId = emailId;
+        this.password = password;
     }
 
     public String getEmailId() {
@@ -51,8 +45,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
-                ", emailId='" + emailId + '\'' +
+                "emailId='" + emailId + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

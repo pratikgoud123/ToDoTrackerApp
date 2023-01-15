@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface UserArchiveProxy {
 
     @PostMapping("/api/v3/addUserInArchive")
-    public ResponseEntity<?> saveUserToarchive (@RequestBody User user);
+    public ResponseEntity<?> saveUserToArchive (@RequestBody User user);
 
 }

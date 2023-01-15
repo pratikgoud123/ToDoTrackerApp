@@ -8,11 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserTaskRepository extends MongoRepository<User, Integer> {
-
-    List<User> findByEmailId (String emailId);
+public interface UserTaskRepository extends MongoRepository<User, String> {
 
     @Query("{'tasks.taskId': ?0}")
-    User findByTaskId (int taskId);
+    User findByTaskId (String taskId);
 
 }

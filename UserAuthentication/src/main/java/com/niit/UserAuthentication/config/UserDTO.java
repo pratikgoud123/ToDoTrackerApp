@@ -8,15 +8,12 @@
 package com.niit.UserAuthentication.config;
 
 public class UserDTO {
-    private int userId;
     private String emailId;
     private String password;
 
     public UserDTO() {
     }
-
-    public UserDTO(int userId, String emailId, String password) {
-        this.userId = userId;
+    public UserDTO(String emailId, String password) {
         this.emailId = emailId;
         this.password = password;
     }
@@ -37,11 +34,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "emailId='" + emailId + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -70,9 +70,9 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteByIdInUserAuth/{userId}")
-    public ResponseEntity<?> deleteByUserId(@PathVariable int userId) {
-        userService.deleteUserById(userId);
+    @DeleteMapping("/deleteByIdInUserAuth/{emailId}")
+    public ResponseEntity<?> deleteByUserId(@PathVariable String emailId) {
+        userService.deleteUserById(emailId);
         return new ResponseEntity<>("User record has been deleted", HttpStatus.OK);
     }
 }

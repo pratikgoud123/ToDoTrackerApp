@@ -28,7 +28,6 @@ public class UserController {
     public ResponseEntity<?> saveUser (@RequestParam("file") MultipartFile file, @RequestParam("user") String user) throws UserAlreadyExistsException, IOException {
         User user1 = new ObjectMapper().readValue(user, User.class);
         try{
-
             return new ResponseEntity<>(userTaskService.saveUser(user1,file), HttpStatus.CREATED);
         }catch(UserAlreadyExistsException e){
             throw new UserAlreadyExistsException();
@@ -37,14 +36,14 @@ public class UserController {
         }
     }
 
-    @PutMapping("/task/addTaskInUserTask/{userId}")
-    public ResponseEntity<?> addTask (@PathVariable int userId, @RequestBody Task task) {
-        return new ResponseEntity<>(userTaskService.addTask(userId, task), HttpStatus.CREATED);
+    @PutMapping("/task/addTaskInUserTask/{emailId}")
+    public ResponseEntity<?> addTask (@PathVariable String emailId, @RequestBody Task task) {
+        return new ResponseEntity<>(userTaskService.addTask(emailId, task), HttpStatus.CREATED);
     }
 
-    @PutMapping("/task/updateTaskInUserTask/{userId}")
-    public ResponseEntity<?> updateTask (@PathVariable int userId, @RequestBody Task task) {
-        return new ResponseEntity<>(userTaskService.updateTask(task,userId ), HttpStatus.OK);
+    @PutMapping("/task/updateTaskInUserTask/{emailId}")
+    public ResponseEntity<?> updateTask (@PathVariable String emailId, @RequestBody Task task) {
+        return new ResponseEntity<>(userTaskService.updateTask(emailId, task), HttpStatus.OK);
     }
 
     @GetMapping("/task/getAllUsersFromUserTask")
@@ -52,15 +51,15 @@ public class UserController {
         return new ResponseEntity<>(userTaskService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/task/getAllTasksOfUserFromUserTask/{userId}")
-    public ResponseEntity<?> getAllTasksOfUser (@PathVariable int userId) {
-        return new ResponseEntity<>(userTaskService.getAllTasksOfUser(userId), HttpStatus.OK);
+    @GetMapping("/task/getAllTasksOfUserFromUserTask/{emailId}")
+    public ResponseEntity<?> getAllTasksOfUser (@PathVariable String emailId) {
+        return new ResponseEntity<>(userTaskService.getAllTasksOfUser(emailId), HttpStatus.OK);
     }
 
-    @GetMapping("/task/getUserByIdInUserTask/{userId}")
-    public ResponseEntity<?> getUserById (@PathVariable int userId) throws UserNotFoundException {
+    @GetMapping("/task/getUserByIdInUserTask/{emailId}")
+    public ResponseEntity<?> getUserById (@PathVariable String emailId) throws UserNotFoundException {
         try{
-            return new ResponseEntity<>(userTaskService.getUserById(userId), HttpStatus.OK);
+            return new ResponseEntity<>(userTaskService.getUserById(emailId), HttpStatus.OK);
         }catch(UserNotFoundException e){
             throw new UserNotFoundException();
         }catch(Exception e){
@@ -68,21 +67,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/task/getUserByEmailIdInUserTask/{emailId}")
-    public ResponseEntity<?> getUserByEmailId (@PathVariable String emailId) throws UserNotFoundException{
+    @GetMapping("/task/getByTaskIdInUserTask/{emailId}/{taskName}")
+    public ResponseEntity<?> getTaskByTaskId (@PathVariable String emailId, @PathVariable String taskName) throws TaskNotFoundException {
         try{
-            return new ResponseEntity<>(userTaskService.getUserByEmailId(emailId), HttpStatus.OK);
-        }catch(UserNotFoundException e){
-            throw new UserNotFoundException();
-        }catch(Exception e){
-            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/task/getByTaskIdInUserTask/{userId}/{taskId}")
-    public ResponseEntity<?> getTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskNotFoundException {
-        try{
-            return new ResponseEntity<>(userTaskService.getTaskByTaskId(userId, taskId), HttpStatus.OK);
+            return new ResponseEntity<>(userTaskService.getTaskByTaskId(emailId, taskName), HttpStatus.OK);
         }catch(TaskNotFoundException e){
             throw new TaskNotFoundException();
         }catch(Exception e){
@@ -95,10 +83,10 @@ public class UserController {
         return new ResponseEntity<>(userTaskService.deleteAllUser(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/task/deleteUserByIdInUserTask/{userId}")
-    public ResponseEntity<?> deleteUserById (@PathVariable int userId) throws UserNotFoundException {
+    @DeleteMapping("/task/deleteUserByIdInUserTask/{emailId}")
+    public ResponseEntity<?> deleteUserById (@PathVariable String emailId) throws UserNotFoundException {
         try{
-            return new ResponseEntity<>(userTaskService.deleteUserById(userId), HttpStatus.OK);
+            return new ResponseEntity<>(userTaskService.deleteUserById(emailId), HttpStatus.OK);
         }catch(UserNotFoundException e){
             throw new UserNotFoundException();
         }catch(Exception e){
@@ -106,10 +94,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/task/deleteTaskByTaskIdInUserTask/{userId}/{taskId}")
-    public ResponseEntity<?> deleteTaskByTaskId (@PathVariable int userId, @PathVariable int taskId) throws TaskNotFoundException {
+    @DeleteMapping("/task/deleteTaskByTaskIdInUserTask/{emailId}/{taskName}")
+    public ResponseEntity<?> deleteTaskByTaskId (@PathVariable String emailId, @PathVariable String taskName) throws TaskNotFoundException {
         try{
-            return new ResponseEntity<>(userTaskService.deleteTaskByTaskId(userId, taskId), HttpStatus.OK);
+            return new ResponseEntity<>(userTaskService.deleteTaskByTaskId(emailId, taskName), HttpStatus.OK);
         }catch(TaskNotFoundException e){
             throw new TaskNotFoundException();
         }catch(Exception e){

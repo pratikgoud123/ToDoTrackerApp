@@ -19,10 +19,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUserService{
-
-
     private UserRepository userRepository;
-
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -32,7 +29,7 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public User addUser(User user) throws UserAlreadyExistsException {
-        if(userRepository.findById(user.getUserId()).isPresent()){
+        if(userRepository.findById(user.getEmailId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
         return userRepository.save(user);
@@ -53,8 +50,8 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public boolean deleteUserById(int userId) {
-        userRepository.deleteById(userId);
+    public boolean deleteUserById(String emailId) {
+        userRepository.deleteById(emailId);
         return true;
     }
 }

@@ -13,46 +13,40 @@ import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.niit.UserTask.domain.User.SEQUENCE_NAME;
 
 @Service
 public class UserTaskServiceImpl implements IUserTaskService{
     private UserTaskRepository userTaskRepository;
     private UserNotificationProxy userNotificationProxy;
     private Producer producer;
-    private SequenceGeneratorService service ;
 
     private UserArchiveProxy archiveProxy;
     @Autowired
-    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer, SequenceGeneratorService service, UserArchiveProxy archiveProxy) {
+    public UserTaskServiceImpl(UserTaskRepository userTaskRepository, UserNotificationProxy userNotificationProxy, Producer producer, UserArchiveProxy archiveProxy) {
         this.userTaskRepository = userTaskRepository;
         this.userNotificationProxy = userNotificationProxy;
         this.producer = producer;
-        this.service = service;
         this.archiveProxy = archiveProxy;
     }
 
     @Override
     public User saveUser(User user, MultipartFile file) throws UserAlreadyExistsException, IOException {
-        if (userTaskRepository.findById(user.getUserId()).isPresent()){
+        if (userTaskRepository.findById(user.getEmailId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
-        user.setUserId(service.getSequenceNumber(SEQUENCE_NAME));
         user.setImg(file.getBytes());
         user.setFile(file.getOriginalFilename());
-        archiveProxy.saveUserToarchive(user);
-        userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
+        archiveProxy.saveUserToArchive(user);
+//        userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
 
         try{
             System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
             UserDTO userDTO = new UserDTO();
-            userDTO.setUserId(user.getUserId());
+
             userDTO.setEmailId(user.getEmailId());
             userDTO.setPassword(user.getPassword());
 
@@ -61,13 +55,12 @@ public class UserTaskServiceImpl implements IUserTaskService{
         }catch(Exception exception){
             System.out.println(exception.getStackTrace());
         }
-
         return userTaskRepository.save(user);
     }
 
     @Override
-    public Task addTask(int userId, Task task) {
-        User user1 = userTaskRepository.findById(userId).get();
+    public Task addTask(String emailId, Task task) {
+        User user1 = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         if(tasks == null){
             tasks = new ArrayList<>();
@@ -75,19 +68,20 @@ public class UserTaskServiceImpl implements IUserTaskService{
         tasks.add(task);
         user1.setTasks(tasks);
         userTaskRepository.save(user1);
-        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
+//        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
 
         return task;
     }
 
     @Override
-    public Task updateTask( Task task,int userId) {
-        User user1 = userTaskRepository.findById(userId).get();
+    public Task updateTask(String emailId, Task task ) {
+        User user1 = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
-            if (taskToUpdate.getTaskId() == task.getTaskId()){
+            if (taskToUpdate.getTaskName() == task.getTaskName()){
                 taskToUpdate.setTaskName(task.getTaskName());
                 taskToUpdate.setTaskContent(task.getTaskContent());
+                taskToUpdate.setImageURL(task.getImageURL());
                 taskToUpdate.setTaskDeadline(task.getTaskDeadline());
                 taskToUpdate.setTaskCategory(task.getTaskCategory());
                 taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
@@ -95,8 +89,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
             }
         }
         userTaskRepository.save(user1);
-
-        userNotificationProxy.updateTask(task,userId);                                                                  //feignClient(Notification-service)
+//        userNotificationProxy.updateTask(task,userId);                                                                  //feignClient(Notification-service)
 
         return task;
 
@@ -108,34 +101,26 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public List<Task> getAllTasksOfUser(int userId) {
-        User user1 = userTaskRepository.findById(userId).get();
+    public List<Task> getAllTasksOfUser(String emailId) {
+        User user1 = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         return tasks;
     }
 
     @Override
-    public Optional<User> getUserById(int userId) throws UserNotFoundException {
-        if (userTaskRepository.findById(userId).isEmpty()){
+    public Optional<User> getUserById(String emailId) throws UserNotFoundException {
+        if (userTaskRepository.findById(emailId).isEmpty()){
             throw new UserNotFoundException();
         }
-        return userTaskRepository.findById(userId);
+        return userTaskRepository.findById(emailId);
     }
 
     @Override
-    public List<User> getUserByEmailId(String emailId) throws UserNotFoundException {
-        if (userTaskRepository.findByEmailId(emailId).isEmpty()){
-            throw new UserNotFoundException();
-        }
-        return userTaskRepository.findByEmailId(emailId);
-    }
-
-    @Override
-    public Task getTaskByTaskId(int userId, int taskId) throws TaskNotFoundException {
-        User user1 = userTaskRepository.findById(userId).get();
+    public Task getTaskByTaskId(String emailId, String taskName) throws TaskNotFoundException {
+        User user1 = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         Task task = tasks.stream()
-                            .filter(obj -> taskId==(obj.getTaskId()))
+                            .filter(obj -> taskName==(obj.getTaskName()))
                             .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new TaskNotFoundException();
@@ -152,20 +137,20 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public boolean deleteUserById(int userId) throws UserNotFoundException{
-        if (userTaskRepository.findById(userId).isEmpty()){
+    public boolean deleteUserById(String emailId) throws UserNotFoundException{
+        if (userTaskRepository.findById(emailId).isEmpty()){
             throw new UserNotFoundException();
         }
-        userTaskRepository.deleteById(userId);
+        userTaskRepository.deleteById(emailId);
         return true;
     }
 
     @Override
-    public boolean deleteTaskByTaskId(int userId, int taskId) throws TaskNotFoundException {
-        User user = userTaskRepository.findById(userId).get();
+    public boolean deleteTaskByTaskId(String emailId, String taskName) throws TaskNotFoundException {
+        User user = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user.getTasks();
         Task task = tasks.stream()
-                .filter(obj -> taskId==(obj.getTaskId()))
+                .filter(obj -> taskName==(obj.getTaskName()))
                 .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new TaskNotFoundException();

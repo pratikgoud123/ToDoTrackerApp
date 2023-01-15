@@ -28,19 +28,17 @@ public class ArchiveServiceImpl implements IArchiveService{
     }
 
     @Override
-    public List<Task> getAllTasks(int userId) {
-
-        List<Task> tasks = archiveRepository.findById(userId).get().getTasks();
-
+    public List<Task> getAllTasks(String emailId) {
+        List<Task> tasks = archiveRepository.findById(emailId).get().getTasks();
         return tasks;
     }
 
     @Override
-    public boolean deleteTaskByTaskId(int userId, int taskId) throws TaskDoesNotExistsException {
-        User user = archiveRepository.findById(userId).get();
+    public boolean deleteTaskByTaskId(String emailId, String taskName) throws TaskDoesNotExistsException {
+        User user = archiveRepository.findById(emailId).get();
         List<Task> tasks = user.getTasks();
         Task task = tasks.stream()
-                .filter(obj -> taskId==(obj.getTaskId()))
+                .filter(obj -> taskName==(obj.getTaskName()))
                 .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new TaskDoesNotExistsException();
@@ -53,14 +51,12 @@ public class ArchiveServiceImpl implements IArchiveService{
 
     @Override
     public User saveUser(User user) {
-
         return archiveRepository.save(user);
     }
 
     @Override
-    public boolean addTask(Task task, int userId) {
-
-        User user1 = archiveRepository.findById(userId).get();
+    public boolean addTask(String emailId, Task task) {
+        User user1 = archiveRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
 
         if(user1.getTasks()==null){
@@ -76,14 +72,14 @@ public class ArchiveServiceImpl implements IArchiveService{
     }
 
     @Override
-    public Task updateTask(int userId, Task task) {
-
-        User user1 = archiveRepository.findById(userId).get();
+    public Task updateTask(String emailId, Task task) {
+        User user1 = archiveRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
-            if (taskToUpdate.getTaskId() == task.getTaskId()){
+            if (taskToUpdate.getTaskName() == task.getTaskName()){
                 taskToUpdate.setTaskName(task.getTaskName());
                 taskToUpdate.setTaskContent(task.getTaskContent());
+                taskToUpdate.setImageURL(task.getImageURL());
                 taskToUpdate.setTaskDeadline(task.getTaskDeadline());
                 taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
                 taskToUpdate.setTaskCompleted(task.isTaskCompleted());
@@ -94,11 +90,11 @@ public class ArchiveServiceImpl implements IArchiveService{
     }
 
     @Override
-    public Task getTaskByTaskId(int userId, int taskId) throws TaskDoesNotExistsException {
-        User user1 = archiveRepository.findById(userId).get();
+    public Task getTaskByTaskId(String emailId, String taskName) throws TaskDoesNotExistsException {
+        User user1 = archiveRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         Task task = tasks.stream()
-                .filter(obj -> taskId==(obj.getTaskId()))
+                .filter(obj -> taskName==(obj.getTaskName()))
                 .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new TaskDoesNotExistsException();

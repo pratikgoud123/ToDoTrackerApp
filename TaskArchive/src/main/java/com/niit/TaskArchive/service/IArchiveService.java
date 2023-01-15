@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface IArchiveService {
 
-    List<Task> getAllTasks(int userId);
-    boolean deleteTaskByTaskId(int userId, int taskId) throws TaskDoesNotExistsException;
+    List<Task> getAllTasks(String emailId);
+    boolean deleteTaskByTaskId(String emailId, String taskName) throws TaskDoesNotExistsException;
     User saveUser (User user);
-    public boolean addTask(Task task, int userId);
-    Task updateTask (int userId, Task task);
-    Task getTaskByTaskId (int userId, int taskId) throws TaskDoesNotExistsException;
+    boolean addTask(String emailId, Task task);
+    Task updateTask (String emailId, Task task);
+    Task getTaskByTaskId (String emailId, String taskName) throws TaskDoesNotExistsException;
 
 }

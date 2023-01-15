@@ -16,18 +16,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Consumer {
-
     @Autowired
     private UserServiceImpl userService;
+
     @RabbitListener(queues = "usertaskqueue")
     public void getData(UserDTO userDTO) throws UserAlreadyExistsException {
         User user=new User();
-        user.setUserId(userDTO.getUserId());
-        System.out.println("Mapping---"+userDTO.getUserId());
+
         user.setEmailId(userDTO.getEmailId());
         System.out.println("Mapping---"+userDTO.getEmailId());
         user.setPassword(userDTO.getPassword());
         System.out.println("user details--"+user);
+
         userService.addUser(user);
     }
 }

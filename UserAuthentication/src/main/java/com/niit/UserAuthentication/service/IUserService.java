@@ -14,5 +14,5 @@ public interface IUserService {
 
     List<User> getAllUsers();
 
-    public boolean deleteUserById(int userId);
+    public boolean deleteUserById(String emailId);
 }
