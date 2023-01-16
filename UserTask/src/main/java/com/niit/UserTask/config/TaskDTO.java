@@ -11,7 +11,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskDTO {
-    private int taskId;
     private String taskName;
     private String taskContent;
     private String imageURL;
