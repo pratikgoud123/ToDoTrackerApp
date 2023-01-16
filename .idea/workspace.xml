@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ab6a613-108a-4e56-ac71-d45305c9fab3" name="Changes" comment=".">
+      <change afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/exception/TaskAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/controller/ImpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/controller/ImpController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/model/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/repository/ImpRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/repository/ImpRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/service/ImpService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/service/ImpService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/service/ImpServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationService/src/main/java/com/niit/service/ImpServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/proxy/UserNotificationProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/proxy/UserNotificationProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/IUserTaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/IUserTaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/UserTaskServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/UserTaskServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2K7VoJ8bSBv4NiIestBR2wxxiV8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/NIIT/capstone project/ToDoTrackerApp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "terminal",
+    "spring.configuration.checksum": "fddcd56870730fa58a2370efff537e13",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="EurekaServer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.niit.EurekaServer.EurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="NotificationService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.niit.NotificationServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringCloudApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="SpringCloudApiGateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.niit.SpringCloudApiGateway.SpringCloudApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskArchiveApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="TaskArchive" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.niit.TaskArchive.TaskArchiveApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserAuthenticationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="UserAuthentication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.niit.UserAuthentication.UserAuthenticationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTaskApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="UserTask" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.niit.UserTask.UserTaskApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ab6a613-108a-4e56-ac71-d45305c9fab3" name="Changes" comment="" />
+      <created>1673325787113</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673325787113</updated>
+      <workItem from="1673630423026" duration="1284000" />
+      <workItem from="1673631726410" duration="6133000" />
+      <workItem from="1673688853359" duration="3529000" />
+      <workItem from="1673761537301" duration="1151000" />
+      <workItem from="1673763782754" duration="2145000" />
+      <workItem from="1673766483291" duration="2498000" />
+      <workItem from="1673781631234" duration="4643000" />
+    </task>
+    <task id="LOCAL-00001" summary="added LoginResponse class to get User and token together as a reponseEntity from login method">
+      <created>1673455632532</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1673455632532</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added getTaskByTaskId method in Archive Task Service">
+      <created>1673597552021</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1673597552021</updated>
+    </task>
+    <task id="LOCAL-00003" summary="modified model classes">
+      <created>1673624479387</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1673624479387</updated>
+    </task>
+    <task id="LOCAL-00004" summary="modified model classes again">
+      <created>1673786100657</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1673786100657</updated>
+    </task>
+    <task id="LOCAL-00005" summary=".">
+      <created>1673847258639</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1673847258639</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added LoginResponse class to get User and token together as a reponseEntity from login method" />
+    <MESSAGE value="added getTaskByTaskId method in Archive Task Service" />
+    <MESSAGE value="modified model classes" />
+    <MESSAGE value="modified model classes again" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

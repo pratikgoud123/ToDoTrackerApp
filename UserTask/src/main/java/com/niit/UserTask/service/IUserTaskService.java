@@ -2,6 +2,7 @@ package com.niit.UserTask.service;
 
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
+import com.niit.UserTask.exception.TaskAlreadyExistsException;
 import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 public interface IUserTaskService {
     User saveUser (User user, MultipartFile file) throws UserAlreadyExistsException, IOException;
-    Task addTask (String emailId, Task task);
+    Task addTask (String emailId, Task task) throws TaskAlreadyExistsException;
     Task updateTask (String emailId, Task task);
     List<User> getAllUsers ();
     List<Task> getAllTasksOfUser (String emailId);
@@ -22,7 +23,6 @@ public interface IUserTaskService {
     boolean deleteAllUser ();
     boolean deleteUserById (String emailId) throws UserNotFoundException;
     boolean deleteTaskByTaskId (String emailId, String taskName) throws TaskNotFoundException;
-
     List<Task> getCompletedTask(String emailId);
 
 }

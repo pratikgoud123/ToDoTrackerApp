@@ -4,6 +4,7 @@ import com.niit.UserTask.config.Producer;
 import com.niit.UserTask.config.UserDTO;
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
+import com.niit.UserTask.exception.TaskAlreadyExistsException;
 import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
@@ -13,6 +14,7 @@ import com.niit.UserTask.repository.UserTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.Optional;
 
 @Service
 public class UserTaskServiceImpl implements IUserTaskService{
-    private UserTaskRepository userTaskRepository;
+    private final UserTaskRepository userTaskRepository;
     private UserNotificationProxy userNotificationProxy;
     private Producer producer;
 
@@ -40,8 +42,8 @@ public class UserTaskServiceImpl implements IUserTaskService{
         }
         user.setImg(file.getBytes());
         user.setFile(file.getOriginalFilename());
-        archiveProxy.saveUserToArchive(user);
-//        userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
+        archiveProxy.saveUserToArchive(user);                                                                           //feignClient(Archive-service)
+        userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
 
         try{
             System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
@@ -59,16 +61,21 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
-    public Task addTask(String emailId, Task task) {
+    public Task addTask(String emailId, Task task) throws TaskAlreadyExistsException {
         User user1 = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         if(tasks == null){
             tasks = new ArrayList<>();
         }
+        for (Task t : tasks) {
+            if (t.getTaskName().equalsIgnoreCase(task.getTaskName())) {
+                throw new TaskAlreadyExistsException();
+            }
+        }
         tasks.add(task);
         user1.setTasks(tasks);
         userTaskRepository.save(user1);
-//        userNotificationProxy.saveTaskDetailFromUserTask(task, userId);                                                 //feignClient(Notification-service)
+        userNotificationProxy.saveTaskDetailFromUserTask(emailId, task);                                                //feignClient(Notification-service)
 
         return task;
     }
@@ -89,7 +96,7 @@ public class UserTaskServiceImpl implements IUserTaskService{
             }
         }
         userTaskRepository.save(user1);
-//        userNotificationProxy.updateTask(task,userId);                                                                  //feignClient(Notification-service)
+        userNotificationProxy.updateTask(emailId, task);                                                                //feignClient(Notification-service)
 
         return task;
 

@@ -3,6 +3,7 @@ package com.niit.UserTask.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niit.UserTask.domain.Task;
 import com.niit.UserTask.domain.User;
+import com.niit.UserTask.exception.TaskAlreadyExistsException;
 import com.niit.UserTask.exception.TaskNotFoundException;
 import com.niit.UserTask.exception.UserAlreadyExistsException;
 import com.niit.UserTask.exception.UserNotFoundException;
@@ -37,8 +38,15 @@ public class UserController {
     }
 
     @PutMapping("/task/addTaskInUserTask/{emailId}")
-    public ResponseEntity<?> addTask (@PathVariable String emailId, @RequestBody Task task) {
-        return new ResponseEntity<>(userTaskService.addTask(emailId, task), HttpStatus.CREATED);
+    public ResponseEntity<?> addTask (@PathVariable String emailId, @RequestBody Task task) throws TaskAlreadyExistsException {
+        try{
+            return new ResponseEntity<>(userTaskService.addTask(emailId, task), HttpStatus.CREATED);
+        }catch(TaskAlreadyExistsException e){
+            throw new TaskAlreadyExistsException();
+        }catch(Exception e){
+            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PutMapping("/task/updateTaskInUserTask/{emailId}")

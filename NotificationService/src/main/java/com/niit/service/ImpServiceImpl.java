@@ -1,5 +1,6 @@
 package com.niit.service;
 
+import com.niit.exception.ImpAlreadyExistException;
 import com.niit.exception.ImpNotFoundException;
 import com.niit.model.Task;
 import com.niit.model.User;
@@ -18,9 +19,8 @@ public class ImpServiceImpl implements ImpService{
 
 
     @Override
-    public List<Task> getAllTask(int userId) {
-        List<Task> tasks = impRepository.findById(userId).get().getTasks();
-
+    public List<Task> getAllTask(String emailId) {
+        List<Task> tasks = impRepository.findById(emailId).get().getTasks();
         return tasks;
     }
 
@@ -30,11 +30,11 @@ public class ImpServiceImpl implements ImpService{
     }
 
     @Override
-    public boolean deleteTask(int userId, int taskId) throws ImpNotFoundException {
-        User user = impRepository.findById(userId).get();
+    public boolean deleteTaskByTaskId(String emailId, String taskName) throws ImpNotFoundException {
+        User user = impRepository.findById(emailId).get();
         List<Task> tasks = user.getTasks();
         Task task = tasks.stream()
-                .filter(obj -> taskId==(obj.getTaskId()))
+                .filter(obj -> taskName==(obj.getTaskName()))
                 .findAny().orElse(null);
         if(tasks == null || !tasks.contains(task)){
             throw new ImpNotFoundException();
@@ -47,8 +47,8 @@ public class ImpServiceImpl implements ImpService{
 
 
     @Override
-    public List<Task> getAllImpTask(int userId) {
-        List<Task> tasks = impRepository.findById(userId).get().getTasks();
+    public List<Task> getAllImpTask(String emailId) {
+        List<Task> tasks = impRepository.findById(emailId).get().getTasks();
         List<Task> impTasks = new ArrayList<>();
         tasks.forEach(e->{
             if(e.getTaskPriorityLevel().equals("high")) {
@@ -61,31 +61,35 @@ public class ImpServiceImpl implements ImpService{
     }
 
     @Override
-    public boolean addTask(Task task, int userId) {
-        User user1 = impRepository.findById(userId).get();
+    public boolean addTask(String emailId, Task task) throws ImpAlreadyExistException {
+        User user1 = impRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
+        if(tasks == null){
+            tasks = new ArrayList<>();
+        }
+        for (Task t : tasks) {
+            if (t.getTaskName().equalsIgnoreCase(task.getTaskName())) {
+                throw new ImpAlreadyExistException();
+            }
+        }
+        tasks.add(task);
+        user1.setTasks(tasks);
 
-        if(user1.getTasks()==null){
-            user1.setTasks(Arrays.asList(task));
-        }
-        else {
-            tasks.add(task);
-            user1.setTasks(tasks);
-        }
         impRepository.save(user1);
-
         return true;
     }
 
     @Override
-    public Task updateTask(Task task,int userId) {
-        User user1 = impRepository.findById(userId).get();
+    public Task updateTask(String emailId, Task task) {
+        User user1 = impRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();
         for (Task taskToUpdate: tasks) {
-            if (taskToUpdate.getTaskId() == task.getTaskId()){
+            if (taskToUpdate.getTaskName().equalsIgnoreCase(task.getTaskName())){
                 taskToUpdate.setTaskName(task.getTaskName());
                 taskToUpdate.setTaskContent(task.getTaskContent());
+                taskToUpdate.setImageURL(task.getImageURL());
                 taskToUpdate.setTaskDeadline(task.getTaskDeadline());
+                taskToUpdate.setTaskCategory(task.getTaskCategory());
                 taskToUpdate.setTaskPriorityLevel(task.getTaskPriorityLevel());
                 taskToUpdate.setTaskCompleted(task.isTaskCompleted());
             }
