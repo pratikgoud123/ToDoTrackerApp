@@ -28,8 +28,22 @@ public class UserController {
     @PostMapping("/AddUserInUserTask")
     public ResponseEntity<?> saveUser (@RequestParam("file") MultipartFile file, @RequestParam("user") String user) throws UserAlreadyExistsException, IOException {
         User user1 = new ObjectMapper().readValue(user, User.class);
+
         try{
+            System.out.println(user1);
             return new ResponseEntity<>(userTaskService.saveUser(user1,file), HttpStatus.CREATED);
+        }catch(UserAlreadyExistsException e){
+            throw new UserAlreadyExistsException();
+        }catch(Exception e){
+            return new ResponseEntity<>("Server error, try after sometime", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/AddUserInUserTaskNoImage")
+    public ResponseEntity<?> saveUserWithImage (@RequestBody User user) throws UserAlreadyExistsException {
+        try{
+            System.out.println(user);
+            return new ResponseEntity<>(userTaskService.saveUserWithNoImage(user), HttpStatus.CREATED);
         }catch(UserAlreadyExistsException e){
             throw new UserAlreadyExistsException();
         }catch(Exception e){

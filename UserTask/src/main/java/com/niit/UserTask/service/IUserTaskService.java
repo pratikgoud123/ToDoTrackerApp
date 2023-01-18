@@ -14,6 +14,7 @@ import java.util.Optional;
 
 public interface IUserTaskService {
     User saveUser (User user, MultipartFile file) throws UserAlreadyExistsException, IOException;
+    User saveUserWithNoImage (User user) throws UserAlreadyExistsException;
     Task addTask (String emailId, Task task) throws TaskAlreadyExistsException;
     Task updateTask (String emailId, Task task);
     List<User> getAllUsers ();

@@ -61,6 +61,29 @@ public class UserTaskServiceImpl implements IUserTaskService{
     }
 
     @Override
+    public User saveUserWithNoImage(User user) throws UserAlreadyExistsException {
+        if (userTaskRepository.findById(user.getEmailId()).isPresent()){
+            throw new UserAlreadyExistsException();
+        }
+        archiveProxy.saveUserToArchive(user);                                                                           //feignClient(Archive-service)
+        userNotificationProxy.saveUserToNotification(user);                                                             //feignClient(Notification-service)
+
+        try{
+            System.out.println(" user data fetched from client request---" + user.toString());                          //RabbitMQ (UserAuthentication-service)
+            UserDTO userDTO = new UserDTO();
+
+            userDTO.setEmailId(user.getEmailId());
+            userDTO.setPassword(user.getPassword());
+
+            producer.sendUserMsg(userDTO);
+
+        }catch(Exception exception){
+            System.out.println(exception.getStackTrace());
+        }
+        return userTaskRepository.save(user);
+    }
+
+    @Override
     public Task addTask(String emailId, Task task) throws TaskAlreadyExistsException {
         User user1 = userTaskRepository.findById(emailId).get();
         List<Task> tasks = user1.getTasks();

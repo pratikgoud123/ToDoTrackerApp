@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2ab6a613-108a-4e56-ac71-d45305c9fab3" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/IUserTaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/IUserTaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/UserTaskServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserTask/src/main/java/com/niit/UserTask/service/UserTaskServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673847258639</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=".">
+      <created>1673890889667</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1673890889667</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
